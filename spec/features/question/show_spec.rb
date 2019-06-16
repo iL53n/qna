@@ -8,7 +8,7 @@ feature 'User can see question and answers to him', %q{
 
   given(:user) { create(:user) }
   given!(:question) { create(:question, user: user) }
-  given!(:answers) { create_list(:answer, 3, question: question) }
+  given!(:answers) { create_list(:answer, 3, question: question, user: user) }
 
   background { visit question_path(question) }
 

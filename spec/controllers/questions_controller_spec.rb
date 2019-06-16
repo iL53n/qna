@@ -119,11 +119,9 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'DELETE #destroy' do
     before { login(user) }
-    let(:authored_question) { create(:question, user: user) }
+    let!(:authored_question) { create(:question, user: user) }
 
     context 'User tries to delete his question' do
-      before { authored_question }
-
       it 'deletes the question' do
         expect { delete :destroy, params: { id: authored_question } }.to change(Question, :count).by(-1)
       end
@@ -135,19 +133,16 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     context 'User tries to delete not his question' do
-      before { sign_in(create(:user)) }
-      before { question }
+      before { login(create(:user)) }
 
       it 'not deletes the question' do
-        expect { delete :destroy, params: { id: question } }.to_not change(Question, :count)
+        expect { delete :destroy, params: { id: authored_question } }.to_not change(Question, :count)
       end
 
       it 'redirects to question view' do
-        delete :destroy, params: { id: question }
-        expect(response).to redirect_to question
+        delete :destroy, params: { id: authored_question }
+        expect(response).to redirect_to authored_question
       end
     end
-
-
   end
 end
