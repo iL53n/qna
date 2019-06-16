@@ -3,6 +3,8 @@
 h1= @question.title
 h3= @question.body
 
+p= link_to 'Delete question', question_path(@question), method: :delete
+
 p= '_Answers_'
 = render @question.answers
 

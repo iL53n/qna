@@ -7,7 +7,7 @@ feature 'User can show questions list', %q{
 } do
 
   given(:user) { create(:user) }
-  given!(:questions) { create_list(:question, 3) }
+  given!(:questions) { create_list(:question, 3, user: user) }
 
   background do
     sign_in(user)

@@ -6,7 +6,8 @@ feature 'User can see question and answers to him', %q{
     I'd like to able to see the question and answers to him
 } do
 
-  given!(:question) { create(:question) }
+  given(:user) { create(:user) }
+  given!(:question) { create(:question, user: user) }
   given!(:answers) { create_list(:answer, 3, question: question) }
 
   background { visit question_path(question) }
