@@ -9,32 +9,32 @@ feature 'User can destroy an answer', %q{
   given(:user) { create(:user) }
   given(:user_not_author) { create(:user) }
   given(:question) { create(:question, user: user) }
-  given(:answer) { create(:answer, user: user, question: question)}
+  given!(:answer) { create(:answer, user: user, question: question) }
 
   scenario 'Author destroy the answer' do
     sign_in(user)
 
-    visit answer_path(answer)
+    visit question_path(question)
+
+    expect(page).to have_content answer.body
+
     click_on 'Delete answer'
 
     expect(page).to have_content 'The answer are destroyed'
+    expect(page).to_not have_content answer.body
   end
 
   scenario "Not author can't destroy the answer" do
     sign_in(user_not_author)
 
-    visit answer_path(answer)
-    click_on 'Delete answer'
+    visit question_path(question)
 
-    expect(page).to have_content 'Only author can destroy an answer'
+    expect(page).to_not have_content 'Delete answer'
   end
 
   scenario 'Unauthenticated user tries to destroy an answer' do
-    visit answer_path(answer)
+    visit question_path(question)
 
-    click_on 'Delete answer'
-
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'
+    expect(page).to_not have_content 'Delete answer'
   end
 end
-

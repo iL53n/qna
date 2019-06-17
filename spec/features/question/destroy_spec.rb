@@ -17,22 +17,22 @@ feature 'User can destroy a question', %q{
     click_on 'Delete question'
 
     expect(page).to have_content 'The question are destroyed'
+    expect(page).to_not have_content question.title
+    expect(page).to_not have_content question.body
   end
 
   scenario "Not author can't destroy the question" do
     sign_in(user_not_author)
 
     visit question_path(question)
-    click_on 'Delete question'
 
-    expect(page).to have_content 'Only author can destroy a question'
+    expect(page).to_not have_content 'Delete question'
   end
 
   scenario 'Unauthenticated user tries to destroy a question' do
     visit question_path(question)
-    click_on 'Delete question'
 
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'
+    expect(page).to_not have_content 'Delete question'
   end
 end
 

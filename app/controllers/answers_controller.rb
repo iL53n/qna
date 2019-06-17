@@ -14,8 +14,6 @@ class AnswersController < ApplicationController
     end
   end
 
-  def show; end
-
   def destroy
     if current_user.author?(@answer)
       @answer.destroy

@@ -3,9 +3,10 @@
 h1= @question.title
 h3= @question.body
 
-p= link_to 'Delete question', question_path(@question), method: :delete
+- if current_user&.author?(@question)
+  p= link_to 'Delete question', question_path(@question), method: :delete
 
-p= '_Answers_'
+h3= '_Answers_'
 = render @question.answers
 
 = form_with model: [@question, @answer], local: true do |f|
@@ -16,5 +17,3 @@ p= '_Answers_'
   = f.text_area :body
   br
   = f.submit 'Answer the question'
-
-
