@@ -26,13 +26,13 @@ feature 'User can destroy a question', %q{
 
     visit question_path(question)
 
-    expect(page).to_not have_content 'Delete question'
+    expect(page).to_not have_link question_path(question)
   end
 
   scenario 'Unauthenticated user tries to destroy a question' do
     visit question_path(question)
 
-    expect(page).to_not have_content 'Delete question'
+    expect(page).to_not have_link question_path(question)
   end
 end
 

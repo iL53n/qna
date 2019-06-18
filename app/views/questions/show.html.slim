@@ -1,9 +1,7 @@
-= render 'shared/errors', resource: @question
-
 h1= @question.title
 h3= @question.body
 
-- if current_user&.author?(@question)
+- if current_user&.author_of?(@question)
   p= link_to 'Delete question', question_path(@question), method: :delete
 
 h3= '_Answers_'

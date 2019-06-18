@@ -29,12 +29,12 @@ feature 'User can destroy an answer', %q{
 
     visit question_path(question)
 
-    expect(page).to_not have_content 'Delete answer'
+    expect(page).to_not have_link answer_path(answer)
   end
 
   scenario 'Unauthenticated user tries to destroy an answer' do
     visit question_path(question)
 
-    expect(page).to_not have_content 'Delete answer'
+    expect(page).to_not have_link answer_path(answer)
   end
 end
