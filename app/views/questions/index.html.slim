@@ -1,0 +1,17 @@
+h2= 'Questions'
+
+table
+  thead
+    tr
+      th Title
+      th Body
+      th colspan="2"
+
+  tbody
+    - @questions.each do |question|
+      tr
+        td = question.title
+        td = question.body
+br
+
+= link_to 'Ask question', new_question_path
