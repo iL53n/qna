@@ -4,8 +4,9 @@ h3= @question.body
 - if current_user&.author_of?(@question)
   p= link_to 'Delete question', question_path(@question), method: :delete
 
-h3= '_Answers_'
-= render @question.answers
+.answers
+  h3= '_Answers_'
+  = render @question.answers
 
 = form_with model: [@question, @answer], local: true do |f|
   = render 'shared/errors', resource: @answer

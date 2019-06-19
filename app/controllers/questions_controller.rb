@@ -7,7 +7,7 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @answer = @question.answers.new
+    @answer = @question.answers.new # можно просто @answer = Answer.new
   end
 
   def new

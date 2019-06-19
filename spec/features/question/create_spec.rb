@@ -29,6 +29,7 @@ feature 'User can create question', %q{
     scenario 'asks question with errors' do
       click_on 'Ask'
 
+      expect(current_path).to eq questions_path
       expect(page).to have_content "Title can't be blank"
     end
   end
@@ -37,6 +38,7 @@ feature 'User can create question', %q{
     visit questions_path
     click_on 'Ask question'
 
+    expect(current_path).to eq new_user_session_path
     expect(page).to have_content 'You need to sign in or sign up before continuing.'
   end
 end

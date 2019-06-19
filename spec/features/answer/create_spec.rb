@@ -21,12 +21,16 @@ feature 'User can create an answer for the question', %q{
       click_on 'Answer the question'
 
       expect(page).to have_content 'Your answer successfully created.'
-      expect(page).to have_content 'Text answer'
+      expect(current_path).to eq question_path(question)
+      within '.answers' do
+        expect(page).to have_content 'Text answer'
+      end
     end
 
     scenario 'tries to answer the question with errors' do
       click_on 'Answer the question'
 
+      expect(current_path).to eq question_answers_path(question)
       expect(page).to have_content "Body can't be blank"
     end
   end
@@ -35,6 +39,7 @@ feature 'User can create an answer for the question', %q{
     visit question_path(question)
     click_on 'Answer the question'
 
+    expect(current_path).to eq new_user_session_path
     expect(page).to have_content 'You need to sign in or sign up before continuing.'
   end
 end

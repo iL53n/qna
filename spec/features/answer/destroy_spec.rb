@@ -20,6 +20,7 @@ feature 'User can destroy an answer', %q{
 
     click_on 'Delete answer'
 
+    expect(current_path).to eq question_path(question)
     expect(page).to have_content 'The answer are destroyed'
     expect(page).to_not have_content answer.body
   end
