@@ -4,12 +4,13 @@ h3= @question.body
 - if current_user&.author_of?(@question)
   p= link_to 'Delete question', question_path(@question), method: :delete
 
-.answers
   h3= '_Answers_'
+.answers
   = render @question.answers
 
-= form_with model: [@question, @answer], local: true do |f|
+.answer-errors
   = render 'shared/errors', resource: @answer
+= form_with model: [@question, @answer] do |f|
   br
   = f.label :body
   br

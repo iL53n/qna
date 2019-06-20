@@ -9,7 +9,7 @@ feature 'User can create an answer for the question', %q{
   given(:user) { create(:user) }
   given!(:question) { create(:question, user: user) }
 
-  describe 'Authenticated user ' do
+  describe 'Authenticated user ', js: true do
     background do
       sign_in(user)
 
@@ -19,8 +19,7 @@ feature 'User can create an answer for the question', %q{
     scenario 'to answer the question' do
       fill_in 'Body', with: 'Text answer'
       click_on 'Answer the question'
-
-      expect(page).to have_content 'Your answer successfully created.'
+      
       expect(current_path).to eq question_path(question)
       within '.answers' do
         expect(page).to have_content 'Text answer'
@@ -30,7 +29,7 @@ feature 'User can create an answer for the question', %q{
     scenario 'tries to answer the question with errors' do
       click_on 'Answer the question'
 
-      expect(current_path).to eq question_answers_path(question)
+      # expect(current_path).to eq question_answers_path(question)
       expect(page).to have_content "Body can't be blank"
     end
   end
