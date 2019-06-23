@@ -2,5 +2,5 @@ $('.answer-errors').html('<%= render 'shared/errors', resource: @answer %>');
 
 <% if @answer.persisted? %>
   $('.answers').append('<%= j render @answer %>');  // j экранирует все js
-  $('#answer_body').val('');
+  $('.new_answer #answer_body').val('');
 <% end %>

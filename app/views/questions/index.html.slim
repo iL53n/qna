@@ -10,7 +10,7 @@ table
   tbody
     - @questions.each do |question|
       tr
-        td = question.title
+        td = link_to question.title
         td = question.body
 br
 
