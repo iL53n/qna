@@ -1,20 +1,19 @@
 require 'rails_helper'
 
-feature 'User can edit his answer', %q{
+feature 'User can edit his question', %q{
   In order to correct mistakes
-  As an author of answer
-  I'd like to be able to edit my answer
+  As an author of question
+  I'd like to be able to edit my question
 } do
 
   given(:user) { create(:user) }
   given(:user_not_author) { create(:user) }
   given!(:question) { create(:question, user: user) }
-  given!(:answer) { create(:answer, user: user, question: question) }
 
-  scenario 'Unauthenticated user can not edit answer' do
+  scenario 'Unauthenticated user can not edit question' do
     visit question_path(question)
 
-    expect(page).to_not have_link 'Edit answer'
+    expect(page).to_not have_link 'Edit question'
   end
 
   describe 'Authenticated user' do
@@ -23,26 +22,29 @@ feature 'User can edit his answer', %q{
 
       visit question_path(question)
 
-      click_on 'Edit answer'
+      click_on 'Edit question'
     end
 
-    scenario 'edits his answer', js: true do
-      within '.answers' do
-        fill_in 'Body', with: 'edited answer'
+    scenario 'edits his question', js: true do
+      within '.question' do
+        fill_in 'Title', with: 'Title_edited'
+        fill_in 'Body', with: 'Body_edited'
         click_on 'Save'
 
-        expect(page).to_not have_content answer.body
-        expect(page).to have_content 'edited answer'
+        expect(page).to_not have_content question.title
+        expect(page).to have_content 'Title_edited'
+        expect(page).to_not have_content question.body
+        expect(page).to have_content 'Body_edited'
         expect(page).to_not have_selector 'textarea'
       end
     end
 
     scenario 'edits his answer with errors', js: true do
-      within '.answers' do
+      within '.question' do
         fill_in 'Body', with: ''
         click_on 'Save'
 
-        expect(page).to have_content answer.body
+        expect(page).to have_content question.body
         expect(page).to have_selector 'textarea'
       end
 
@@ -55,6 +57,6 @@ feature 'User can edit his answer', %q{
 
     visit question_path(question)
 
-    expect(page).to_not have_link 'Edit answer'
+    expect(page).to_not have_link 'Edit question'
   end
 end

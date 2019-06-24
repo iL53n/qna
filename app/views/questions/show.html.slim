@@ -1,20 +1,19 @@
-h1= @question.title
-h4= @question.body
+.question-errors
 
-- if current_user&.author_of?(@question)
-  br
-  em.middle= link_to 'Delete question', question_path(@question), method: :delete, data: { confirm: "Are you sure?" }
-
-  hr
-  h4= "Answers (#{@question.answers.count})"
-  br
+.question
+  = render @question
 
 .answers
+  hr
+  h4= "Answers (#{@question.answers.count})"
+
+  .answer-errors
+
+  br
   = render @question.answers
 
 
-.answer-errors
-  = render 'shared/errors', resource: @answer
+
 = form_with model: [@question, @answer], class: 'new_answer' do |f|
   = f.label :body, 'Your answer'
   br
