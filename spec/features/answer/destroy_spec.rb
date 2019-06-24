@@ -11,17 +11,16 @@ feature 'User can destroy an answer', %q{
   given(:question) { create(:question, user: user) }
   given!(:answer) { create(:answer, user: user, question: question) }
 
-  scenario 'Author destroy the answer' do
+  scenario 'Author destroy the answer', js: true do
     sign_in(user)
 
     visit question_path(question)
 
     expect(page).to have_content answer.body
 
-    click_on 'Delete answer'
-
-    expect(current_path).to eq question_path(question)
-    expect(page).to have_content 'The answer are destroyed'
+    page.accept_confirm do
+      click_link 'Delete answer'
+    end
     expect(page).to_not have_content answer.body
   end
 

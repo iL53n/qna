@@ -101,7 +101,7 @@ RSpec.describe QuestionsController, type: :controller do
         expect(question.body).to eq('new_body')
       end
 
-      it 'renders update view' do
+      it 'renders update template' do
         patch :update, params: { id: question, question: { title: 'new_title', body: 'new_body'} }, format: :js
         expect(response).to render_template :update
       end
@@ -116,7 +116,7 @@ RSpec.describe QuestionsController, type: :controller do
         expect(question.title).to_not eq(nil)
         expect(question.body).to_not eq('invalid_obj')
       end
-      it 'renders update view' do
+      it 'renders update template' do
         expect(response).to render_template :update
       end
     end
@@ -131,7 +131,7 @@ RSpec.describe QuestionsController, type: :controller do
         expect(question.body).to_not eq 'new_body'
       end
 
-      it 'redirects to question view' do
+      it 'renders update template' do
         patch :update, params: { id: question, question: { title: 'new_title', body: 'new_body'} }, format: :js
         expect(response).to render_template :update
       end

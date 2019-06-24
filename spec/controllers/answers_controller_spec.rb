@@ -44,7 +44,7 @@ RSpec.describe AnswersController, type: :controller do
         expect(answer.body).to eq 'new body'
       end
 
-      it 'renders update view' do
+      it 'renders update template' do
         patch :update, params: { id: answer, answer: { body: 'new body' } }, format: :js
         expect(response).to render_template :update
       end
@@ -57,7 +57,7 @@ RSpec.describe AnswersController, type: :controller do
         end.to_not change(answer, :body)
       end
 
-      it 'renders update view' do
+      it 'renders update template' do
         patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) }, format: :js
         expect(response).to render_template :update
       end
@@ -72,7 +72,7 @@ RSpec.describe AnswersController, type: :controller do
         expect(answer.body).to_not eq 'new body'
       end
 
-      it 'redirects to question view' do
+      it 'renders update template' do
         patch :update, params: { id: answer, answer: { body: 'new body' } }, format: :js
         expect(response).to render_template :update
       end
@@ -84,12 +84,12 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'User tries to delete his answer' do
       it 'deletes the answer' do
-        expect { delete :destroy, params: { id: authored_answer } }.to change(Answer, :count).by(-1)
+        expect { delete :destroy, params: { id: authored_answer }, format: :js }.to change(Answer, :count).by(-1)
       end
 
-      it 'redirects to question view' do
-        delete :destroy, params: { id: authored_answer }
-        expect(response).to redirect_to authored_answer.question
+      it 'renders destroy template' do
+        delete :destroy, params: { id: authored_answer }, format: :js
+        expect(response).to render_template :destroy
       end
     end
 
@@ -97,12 +97,12 @@ RSpec.describe AnswersController, type: :controller do
       before { login(create(:user)) }
 
       it 'not deletes the answer' do
-        expect { delete :destroy, params: { id: authored_answer } }.to_not change(Answer, :count)
+        expect { delete :destroy, params: { id: authored_answer }, format: :js }.to_not change(Answer, :count)
       end
 
-      it 'redirects to question view' do
-        delete :destroy, params: { id: authored_answer }
-        expect(response).to redirect_to authored_answer.question
+      it 'renders destroy template' do
+        delete :destroy, params: { id: authored_answer }, format: :js
+        expect(response).to render_template :destroy
       end
     end
   end
