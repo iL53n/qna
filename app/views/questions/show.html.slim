@@ -1,19 +1,23 @@
 h1= @question.title
-h3= @question.body
+h4= @question.body
 
 - if current_user&.author_of?(@question)
-  p= link_to 'Delete question', question_path(@question), method: :delete, data: { confirm: "Are you sure?" }
+  br
+  em.middle= link_to 'Delete question', question_path(@question), method: :delete, data: { confirm: "Are you sure?" }
 
-  h3= '_Answers_'
+  hr
+  h4= "Answers (#{@question.answers.count})"
+  br
+
 .answers
   = render @question.answers
+
 
 .answer-errors
   = render 'shared/errors', resource: @answer
 = form_with model: [@question, @answer], class: 'new_answer' do |f|
-  br
-  = f.label :body
+  = f.label :body, 'Your answer'
   br
   = f.text_area :body
   br
-  = f.submit 'Answer the question'
+  = f.submit 'Post Your Answer', class: 'btn btn-primary'
