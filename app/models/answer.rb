@@ -5,6 +5,11 @@ class Answer < ApplicationRecord
   validates :body, presence: true
 
   def set_best
-    update!(best: true)
+    best_answer = question.answers.find_by(best: true)
+
+    transaction do
+      best_answer.update!(best: false) if best_answer
+      update!(best: true)
+    end
   end
 end

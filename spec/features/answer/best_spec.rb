@@ -10,6 +10,7 @@ feature 'User can choice best answer', %q{
   given(:user_not_author) { create(:user) }
   given!(:question) { create(:question, user: user) }
   given!(:answer) { create(:answer, user: user, question: question) }
+  given!(:answer_two) { create(:answer, user: user, question: question) }
 
   scenario 'Unauthenticated user can not choice best answer' do
     visit question_path(question)
@@ -17,15 +18,38 @@ feature 'User can choice best answer', %q{
     expect(page).to_not have_link 'Best Answer'
   end
 
-  scenario 'Authenticated user choice best answer',js: true do
-    sign_in(user)
+  describe 'Authenticated user' do
+    background do
+      sign_in(user)
 
-    visit question_path(question)
+      visit question_path(question)
+    end
 
-    click_on 'Best answer'
+    scenario 'choice best answer for his question',js: true do
+      within '.answers' do
+        within ".answer_#{answer.id}" do
+          click_on 'Best answer'
+          expect(page).to have_content 'TheBest'
+        end
+      end
+    end
 
-    within '.answers' do
-      expect(page).to have_content 'TheBest'
+    scenario 'change best answer for his question',js: true do
+      within '.answers' do
+        within ".answer_#{answer.id}" do
+          click_on 'Best answer'
+          expect(page).to have_content 'TheBest'
+        end
+
+        within ".answer_#{answer_two.id}" do
+          click_on 'Best answer'
+          expect(page).to have_content 'TheBest'
+        end
+
+        within ".answer_#{answer.id}" do
+          expect(page).to_not have_content 'TheBest'
+        end
+      end
     end
   end
 
