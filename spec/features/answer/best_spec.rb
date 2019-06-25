@@ -35,21 +35,21 @@ feature 'User can choice best answer', %q{
     end
 
     scenario 'change best answer for his question',js: true do
-      within '.answers' do
-        within ".answer_#{answer.id}" do
-          click_on 'Best answer'
-          expect(page).to have_content 'TheBest'
-        end
-
-        within ".answer_#{answer_two.id}" do
-          click_on 'Best answer'
-          expect(page).to have_content 'TheBest'
-        end
-
-        within ".answer_#{answer.id}" do
-          expect(page).to_not have_content 'TheBest'
-        end
+      within ".answers > .answer_#{answer.id}" do
+        click_on 'Best answer'
+        expect(page).to have_content 'TheBest'
       end
+
+      within ".answers > .answer_#{answer_two.id}" do
+        click_on 'Best answer'
+        expect(page).to have_content 'TheBest'
+      end
+
+      within ".answers > .answer_#{answer.id}" do
+        expect(page).to_not have_content 'TheBest'
+      end
+
+      expect(page.all('.answers').first).to have_content 'TheBest'
     end
   end
 

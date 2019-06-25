@@ -4,11 +4,13 @@ class Answer < ApplicationRecord
 
   validates :body, presence: true
 
+  scope :by_best, -> { order(best: :desc) }
+
   def set_best
     best_answer = question.answers.find_by(best: true)
 
     transaction do
-      best_answer.update!(best: false) if best_answer
+      best_answer&.update!(best: false)
       update!(best: true)
     end
   end
