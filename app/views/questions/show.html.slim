@@ -1,17 +1,22 @@
-h1= @question.title
-h3= @question.body
+.question-errors
 
-- if current_user&.author_of?(@question)
-  p= link_to 'Delete question', question_path(@question), method: :delete
+.question
+  = render @question
 
-h3= '_Answers_'
-= render @question.answers
+hr
+h4= "Answers (#{@question.answers.count})"
 
-= form_with model: [@question, @answer], local: true do |f|
-  = render 'shared/errors', resource: @answer
+.answers
+  .answer-errors
+
   br
-  = f.label :body
+  = render @question.answers
+
+
+
+= form_with model: [@question, @answer], class: 'new_answer' do |f|
+  = f.label :body, 'Your answer'
   br
   = f.text_area :body
   br
-  = f.submit 'Answer the question'
+  = f.submit 'Post Your Answer', class: 'btn btn-primary'

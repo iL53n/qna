@@ -1,1 +1,11 @@
-p= link_to 'Sign out', destroy_user_session_path, method: :delete
+.navbar.navbar-default.navbar-static-top
+  .container
+    a.navbar-brand
+      = link_to image_tag('qna_logo.png', size: '60x60', alt: 'QnAlogo'), questions_path
+
+    ul.navbar-collapse
+      - if user_signed_in?
+        = current_user.email
+        br= link_to 'Sign out', destroy_user_session_path, method: :delete
+      - else
+        = link_to 'Sign in', new_user_session_path

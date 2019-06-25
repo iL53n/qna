@@ -1,4 +1,18 @@
 - if answer.persisted?
-  p= answer.body
-  - if current_user&.author_of?(answer)
-    p= link_to 'Delete answer', answer_path(answer), method: :delete
+  div class="answer_#{answer.id}"
+    p= 'TheBest' if answer.best?
+    p= answer.body
+    - if current_user&.author_of?(answer)
+      em.small= link_to 'Best answer', best_answer_path(answer), method: :patch, remote: true
+      = ' | '
+      em.small= link_to 'Delete answer', answer_path(answer), method: :delete, remote: true, data: { confirm: "Are you sure?" }
+      = ' | '
+      em.small= link_to 'Edit answer', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+
+    = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
+      = f.label :body
+      br
+      = f.text_area :body
+      br
+      = f.submit 'Save'
+    hr

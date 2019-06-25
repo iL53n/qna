@@ -1,17 +1,16 @@
 h2= 'Questions'
 
-table
+table.table.table-bordered
   thead
+  tr
+    th Title
+    th Body
+    th Answers
+  thead
+  - @questions.each do |question|
     tr
-      th Title
-      th Body
-      th colspan="2"
-
-  tbody
-    - @questions.each do |question|
-      tr
-        td = question.title
-        td = question.body
+      td = link_to question.title, question_path(question)
+      td = question.body
+      td = question.answers.count
 br
-
-= link_to 'Ask question', new_question_path
+= link_to 'Ask Question', new_question_path, class: 'btn btn-primary'
