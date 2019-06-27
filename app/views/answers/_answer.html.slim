@@ -18,5 +18,8 @@
       br
       = f.text_area :body
       br
+      = f.label :files
+      = f.file_field :files, multiple: true
+      br
       = f.submit 'Save'
     hr
