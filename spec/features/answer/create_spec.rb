@@ -33,7 +33,7 @@ feature 'User can create an answer for the question', %q{
       expect(page).to have_content "Body can't be blank"
     end
 
-    scenario 'to answer the question qith attached files' do
+    scenario 'to answer the question with attached files' do
       fill_in 'Your answer', with: 'Text answer'
       attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
       click_on 'Post Your Answer'
