@@ -7,6 +7,10 @@ FactoryBot.define do
     title
     body { "MyText" }
 
+    trait :add_file do
+      files { fixture_file_upload(Rails.root.join('spec', 'rails_helper.rb'), 'rails_helper.rb') }
+    end
+
     trait :invalid do
       title { nil }
       body { "invalid_obj" } #mark

@@ -8,11 +8,8 @@ h4= "Answers (#{@question.answers.count})"
 
 .answers
   .answer-errors
-
   br
   = render @question.answers
-
-
 
 = form_with model: [@question, @answer], class: 'new_answer' do |f|
   = f.label :body, 'Your answer'
