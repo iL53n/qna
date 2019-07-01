@@ -1,5 +1,12 @@
 h1= @question.title
 h4= @question.body
+.question_files
+  - if @question.files.attached?
+      - @question.files.each do |file|
+        div class="file_#{file.id}"
+          dd= link_to file.filename.to_s, url_for(file)
+          - if current_user&.author_of?(@question)
+            em.small= link_to 'Delete file', attachment_path(file), method: :delete, remote: true, data: { confirm: "Are you sure?" }
 
 - if current_user&.author_of?(@question)
   br
@@ -15,5 +22,8 @@ h4= @question.body
   = f.label :body
   br
   = f.text_area :body
+  br
+  = f.label :files
+  = f.file_field :files, multiple: true, direct_upload: true
   br
   = f.submit 'Save'
