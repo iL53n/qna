@@ -1,5 +1,12 @@
 h1= @question.title
 h4= @question.body
+
+.links
+  p Links:
+  ul
+    - @question.links.each do |link|
+      li= link_to link.name, link.url
+
 .question_files
   - if @question.files.attached?
       - @question.files.each do |file|
