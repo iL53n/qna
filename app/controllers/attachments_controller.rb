@@ -3,7 +3,11 @@ class AttachmentsController < ApplicationController
   before_action :load_attachment
 
   def destroy
-    @attachment.purge if current_user.author_of?(@attachment.record)
+    if current_user.author_of?(@attachment.record)
+      @attachment.purge
+    else
+      render plain: 'Forbidden', status: 403
+    end
   end
 
   private

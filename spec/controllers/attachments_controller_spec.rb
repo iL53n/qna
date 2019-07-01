@@ -25,10 +25,12 @@ RSpec.describe AttachmentsController, type: :controller do
 
       it 'question' do
         expect { delete :destroy, params: { id: questions_file.id }, format: :js }.to_not change(question.files, :count)
+        expect(response).to have_http_status(403)
       end
 
       it 'answer' do
         expect { delete :destroy, params: { id: answers_file.id }, format: :js }.to_not change(answer.files, :count)
+        expect(response).to have_http_status(403)
       end
     end
   end
