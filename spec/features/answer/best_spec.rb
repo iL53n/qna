@@ -25,7 +25,7 @@ feature 'User can choice best answer', %q{
       visit question_path(question)
     end
 
-    scenario 'choice best answer for his question',js: true do
+    scenario 'choice best answer for his question', js: true do
       within '.answers' do
         within ".answer_#{answer.id}" do
           click_on 'Best answer'
@@ -34,7 +34,7 @@ feature 'User can choice best answer', %q{
       end
     end
 
-    scenario 'change best answer for his question',js: true do
+    scenario 'change best answer for his question', js: true do
       within ".answers > .answer_#{answer.id}" do
         click_on 'Best answer'
         expect(page).to have_content 'TheBest'
