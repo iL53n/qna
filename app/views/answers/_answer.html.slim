@@ -3,10 +3,7 @@
     p= 'TheBest' if answer.best?
     p= answer.body
     .links
-      p Links:
-      ul
-        - answer.links.each do |link|
-          li= link_to link.name, link.url
+      = render 'shared/links', resource: answer
     .answer_files
       - if answer.files.attached?
         - answer.files.each do |file|

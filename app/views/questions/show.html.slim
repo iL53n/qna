@@ -19,13 +19,5 @@ h4= "Answers (#{@question.answers.count})"
     = f.label :files
     = f.file_field :files, multiple: true
   br
-  p Links:
-  p
-    = f.fields_for :links do |l|
-      p
-        = l.label :name, 'Link name'
-        = l.text_field :name
-      p
-        = l.label :url
-        = l.text_field :url
+  = render 'shared/form_links', resource: f
   = f.submit 'Post Your Answer', class: 'btn btn-primary'
