@@ -7,9 +7,12 @@
   p
     = f.label :body
     = f.text_area :body
+
+  = render 'links/form_links', resource: f
+
   p
     = f.label :files
     = f.file_field :files, multiple: true
-  = render 'shared/form_links', resource: f
+
   p= f.submit 'Ask'
 

@@ -2,7 +2,7 @@ h1= @question.title
 h4= @question.body
 
 .links
-  = render 'shared/links', resource: @question
+  = render 'links/links', resource: @question
 
 .question_files
   - if @question.files.attached?
