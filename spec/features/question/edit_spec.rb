@@ -9,6 +9,7 @@ feature 'User can edit his question', %q{
   given(:user) { create(:user) }
   given(:user_not_author) { create(:user) }
   given!(:question) { create(:question, user: user) }
+  given(:url) { 'https://gist.github.com/iL53n/0acd40b1345c1bafa854c6efb8a93a47' }
 
   scenario 'Unauthenticated user can not edit question' do
     visit question_path(question)
@@ -16,7 +17,7 @@ feature 'User can edit his question', %q{
     expect(page).to_not have_link 'Edit question'
   end
 
-  describe 'Authenticated user' do
+  describe 'Authenticated user', js: true do
     background do
       sign_in(user)
 
@@ -25,7 +26,7 @@ feature 'User can edit his question', %q{
       click_on 'Edit question'
     end
 
-    scenario 'edits his question', js: true do
+    scenario 'edits his question' do
       within '.question' do
         fill_in 'Title', with: 'Title_edited'
         fill_in 'Body', with: 'Body_edited'
@@ -39,7 +40,7 @@ feature 'User can edit his question', %q{
       end
     end
 
-    scenario 'edits his question with errors', js: true do
+    scenario 'edits his question with errors' do
       within '.question' do
         fill_in 'Body', with: ''
         click_on 'Save'
@@ -51,7 +52,7 @@ feature 'User can edit his question', %q{
       expect(page).to have_content "Body can't be blank"
     end
 
-    scenario 'edits his question with attached files', js: true do
+    scenario 'edits his question with attached files' do
       within '.question' do
         fill_in 'Title', with: 'Title_edited'
         fill_in 'Body', with: 'Body_edited'
@@ -63,6 +64,16 @@ feature 'User can edit his question', %q{
       end
     end
 
+    scenario 'can add link when editing answer' do
+      within '.question' do
+        click_on 'Add link'
+        fill_in 'Link name', with: 'New link'
+        fill_in 'Url', with: url
+        click_on 'Save'
+
+        expect(page).to have_link 'New link', href: url
+      end
+    end
   end
 
   scenario "Authenticated user tries to edit other user's question" do
