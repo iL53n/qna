@@ -1,5 +1,8 @@
 - if resource.links.present?
-  p Links:
+  h4 Links:
   ul
     - resource.links.each do |link|
-      li= link_to link.name, link.url
+      div class="link_#{link.id}"
+        li= link_to link.name, link.url
+        - if current_user&.author_of?(resource)
+          em.small= link_to 'Delete link', link_path(link), method: :delete, remote: true, data: {confirm: "Are you sure?"}
