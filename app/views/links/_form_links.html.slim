@@ -1,5 +1,0 @@
-h4 Links:
-= resource.fields_for :links do |link|
-  = render 'links/link_fields', f: link
-  .links
-  = link_to_add_association 'Add link', resource, :links , partial: 'links/link_fields'

@@ -7,9 +7,9 @@
   p
     = f.label :body
     = f.text_area :body
-
-  = render 'links/form_links', resource: f
-
+  p
+    = f.fields_for :links do |l|
+    = link_to_add_association 'Add link', f, :links, partial: 'links/link_fields'
   p
     = f.label :files
     = f.file_field :files, multiple: true

@@ -73,7 +73,6 @@ feature 'User can see question and answers to him', %q{
 
     scenario "answer's link" do
       within ".answer_links .link_#{link_a.id}" do
-        save_and_open_page
         page.accept_confirm do
           click_link 'Delete link'
         end
