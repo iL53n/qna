@@ -1,6 +1,9 @@
 h1= @question.title
 h4= @question.body
 
+.question_reward
+  = render 'rewards/reward', resource: @question
+
 .question_links
   = render 'links/links', resource: @question
 
