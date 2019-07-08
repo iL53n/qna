@@ -11,6 +11,7 @@ feature 'User can see question and answers to him', %q{
   given!(:answer) { create(:answer, :add_file, question: question, user: user) }
   given!(:link_q) { create(:link, linkable: question, name: 'Questions_link') }
   given!(:link_a) { create(:link, linkable: answer, name: 'Answers_link') }
+  given!(:gist_link_q) { create(:link, :gist, linkable: question, name: 'Questions_gist_link') }
 
 
   background { visit question_path(question) }
@@ -21,6 +22,13 @@ feature 'User can see question and answers to him', %q{
 
     question.answers.each { |answer| expect(page).to have_content answer.body }
   end
+
+  scenario 'User can see links' do
+    expect(page).to have_content 'Questions_link'
+    expect(page).to have_content 'Answers_link'
+    expect(page).to have_content 'Hello, World!'
+  end
+
 
   describe "Unauthenticated user can't delete" do
     scenario "question's file" do

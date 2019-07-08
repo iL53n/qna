@@ -9,7 +9,7 @@ feature 'User can edit his question', %q{
   given(:user) { create(:user) }
   given(:user_not_author) { create(:user) }
   given!(:question) { create(:question, user: user) }
-  given(:url) { 'https://gist.github.com/iL53n/0acd40b1345c1bafa854c6efb8a93a47' }
+  given(:url) { 'https://google.com' }
 
   scenario 'Unauthenticated user can not edit question' do
     visit question_path(question)

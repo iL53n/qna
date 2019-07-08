@@ -7,28 +7,31 @@ feature 'User can add links to answer', %q{
 } do
   given(:user) { create(:user) }
   given(:question) { create(:question, user: user) }
-  given(:gist_url_1) { 'https://gist.github.com/iL53n/0acd40b1345c1bafa854c6efb8a93a47' }
-  # given(:gist_url_2) { 'https://gist.github.com/iL53n/3c8114658970af2572879f69a0727cb0' }
+  given(:gist_url) { 'https://gist.github.com/iL53n/0acd40b1345c1bafa854c6efb8a93a47' }
+  given(:another_url) { 'https://google.com' }
 
-  scenario 'User add links when give an answer', js: true do
-    sign_in(user)
-    visit question_path(question)
+  describe 'When user give an answer he adds', js: true do
+    background do
+      sign_in(user)
+      visit question_path(question)
+      fill_in 'Your answer', with: 'Text answer'
+      click_on 'Add link'
+    end
 
-    fill_in 'Your answer', with: 'Text answer'
+    scenario 'gist link' do
+      fill_in 'Link name', with: 'My gist'
+      fill_in 'Url', with: gist_url
 
-    click_on 'Add link'
-    fill_in 'Link name', with: 'My gist 1'
-    fill_in 'Url', with: gist_url_1
+      click_on 'Post Your Answer'
+      expect(page).to have_content 'Hello, World!'
+    end
 
-    # click_on 'Add link'
-    # fill_in 'Link name', with: 'My gist 2'
-    # fill_in 'Url', with: gist_url_2
+    scenario 'another link' do
+      fill_in 'Link name', with: 'Google'
+      fill_in 'Url', with: another_url
 
-    click_on 'Post Your Answer'
-
-    within '.answers .answer_links' do
-      expect(page).to have_link 'My gist 1', href: gist_url_1
-      # expect(page).to have_link 'My gist 2', href: gist_url_2
+      click_on 'Post Your Answer'
+      expect(page).to have_link 'Google', href: another_url
     end
   end
 end
