@@ -26,7 +26,7 @@ RSpec.describe Answer, type: :model do
       expect(answer_not_best).to_not be_best
     end
 
-    it "should reward must belong to the answer's author" do
+    it "should reward must belong to the best answer's author" do
       user.rewards.each do |reward|
         expect(reward.user_id).to eq user.id
       end
