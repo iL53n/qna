@@ -10,10 +10,12 @@ RSpec.describe Answer, type: :model do
   it { should accept_nested_attributes_for :links }
 
   describe '#set_best' do
-    let(:user) { create(:user) }
-    let(:question) { create(:question, user: user) }
-    let(:answer_best) { create(:answer, question: question, user: user) }
-    let(:answer_not_best) { create(:answer, question: question, user: user) }
+    let(:user_best) { create(:user) }
+    let(:user_not_best) { create(:user) }
+    let(:question) { create(:question, user: user_best) }
+    let!(:reward) { create(:reward, question: question) }
+    let(:answer_best) { create(:answer, question: question, user: user_best) }
+    let(:answer_not_best) { create(:answer, question: question, user: user_not_best) }
 
     before { answer_best.set_best }
 
@@ -27,9 +29,7 @@ RSpec.describe Answer, type: :model do
     end
 
     it "should reward must belong to the best answer's author" do
-      user.rewards.each do |reward|
-        expect(reward.user_id).to eq user.id
-      end
+      expect(answer_best.user).to eq question.reward.user
     end
 
     it "change best: if change question's best answer" do

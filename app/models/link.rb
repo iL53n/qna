@@ -24,7 +24,7 @@ class Link < ApplicationRecord
   private
 
   def client
-    Octokit::Client.new(access_token: ENV['GITHUB_TOKEN'])
+    Octokit::Client.new
   end
 
   def url_split

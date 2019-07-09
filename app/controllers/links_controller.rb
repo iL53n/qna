@@ -8,7 +8,7 @@ class LinksController < ApplicationController
     if current_user.author_of?(resource)
       @link.destroy
     else
-      render plain: 'Forbidden', status: 403
+      head :forbidden
     end
   end
 

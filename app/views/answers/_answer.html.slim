@@ -7,9 +7,10 @@
     .answer_files
       = render 'attachments/attachments', resource: answer
 
-    - if current_user&.author_of?(answer)
-      br
+    - if current_user&.author_of?(answer.question)
       em.small= link_to 'Best answer', best_answer_path(answer), method: :patch, remote: true
+
+    - if current_user&.author_of?(answer)
       = ' | '
       em.small= link_to 'Delete answer', answer_path(answer), method: :delete, remote: true, data: { confirm: "Are you sure?" }
       = ' | '
