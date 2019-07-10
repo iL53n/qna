@@ -2,29 +2,31 @@
   div class="answer_#{answer.id}"
     p= 'TheBest' if answer.best?
     p= answer.body
+    .answer_links
+      = render 'links/links', resource: answer
     .answer_files
-      - if answer.files.attached?
-        - answer.files.each do |file|
-          div class="file_#{file.id}"
-            dd= link_to file.filename.to_s, url_for(file)
-            - if current_user&.author_of?(answer)
-              em.small= link_to 'Delete file', attachment_path(file), method: :delete, remote: true, data: { confirm: "Are you sure?" }
+      = render 'attachments/attachments', resource: answer
+
+    - if current_user&.author_of?(answer.question)
+      em.small= link_to 'Best answer', best_answer_path(answer), method: :patch, remote: true
 
     - if current_user&.author_of?(answer)
-      br
-      em.small= link_to 'Best answer', best_answer_path(answer), method: :patch, remote: true
       = ' | '
       em.small= link_to 'Delete answer', answer_path(answer), method: :delete, remote: true, data: { confirm: "Are you sure?" }
       = ' | '
       em.small= link_to 'Edit answer', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
 
     = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
-      = f.label :body
-      br
-      = f.text_area :body
-      br
-      = f.label :files
-      = f.file_field :files, multiple: true, direct_upload: true
-      br
-      = f.submit 'Save'
+      p
+        = f.label :body
+      p
+        = f.text_area :body
+      p
+        = f.fields_for :links do |l|
+        = link_to_add_association 'Add link', f, :links, partial: 'links/link_fields'
+      p
+        = f.label :files
+        = f.file_field :files, multiple: true, direct_upload: true
+
+      p= f.submit 'Save'
     hr

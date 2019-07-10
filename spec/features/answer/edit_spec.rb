@@ -10,6 +10,7 @@ feature 'User can edit his answer', %q{
   given(:user_not_author) { create(:user) }
   given!(:question) { create(:question, user: user) }
   given!(:answer) { create(:answer, user: user, question: question) }
+  given(:url) { 'https://google.com' }
 
   scenario 'Unauthenticated user can not edit answer' do
     visit question_path(question)
@@ -17,7 +18,7 @@ feature 'User can edit his answer', %q{
     expect(page).to_not have_link 'Edit answer'
   end
 
-  describe 'Authenticated user' do
+  describe 'Authenticated user', js: true do
     background do
       sign_in(user)
 
@@ -26,7 +27,7 @@ feature 'User can edit his answer', %q{
       click_on 'Edit answer'
     end
 
-    scenario 'edits his answer', js: true do
+    scenario 'edits his answer' do
       within '.answers' do
         fill_in 'Body', with: 'edited answer'
         click_on 'Save'
@@ -37,7 +38,7 @@ feature 'User can edit his answer', %q{
       end
     end
 
-    scenario 'edits his answer with errors', js: true do
+    scenario 'edits his answer with errors' do
       within '.answers' do
         fill_in 'Body', with: ''
         click_on 'Save'
@@ -49,7 +50,7 @@ feature 'User can edit his answer', %q{
       expect(page).to have_content "Body can't be blank"
     end
 
-    scenario 'edits his answer with attached files', js: true do
+    scenario 'edits his answer with attached files' do
       within '.answers' do
         fill_in 'Body', with: 'edited answer'
         attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
@@ -57,6 +58,17 @@ feature 'User can edit his answer', %q{
 
         expect(page).to have_link 'rails_helper.rb'
         expect(page).to have_link 'spec_helper.rb'
+      end
+    end
+
+    scenario 'can add link when editing answer' do
+      within '.answers' do
+        click_on 'Add link'
+        fill_in 'Link name', with: 'New link'
+        fill_in 'Url', with: url
+        click_on 'Save'
+
+        expect(page).to have_link 'New link', href: url
       end
     end
   end

@@ -1,0 +1,7 @@
+- if resource.reward.present?
+  h6 Reward:
+  p
+    = resource.reward.title
+  p
+    / = image_tag resource.reward.image
+    = image_tag(resource.reward.image, size: '80x80', alt: "#{resource.reward.title}")

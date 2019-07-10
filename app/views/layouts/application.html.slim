@@ -15,7 +15,5 @@ html
     .container
       .row
         .col-lg-9
-          p class="notice" = notice
-          p class="alert" = alert
-
-          == yield
+          = bootstrap_flash
+          = yield

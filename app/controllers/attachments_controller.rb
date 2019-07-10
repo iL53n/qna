@@ -6,7 +6,7 @@ class AttachmentsController < ApplicationController
     if current_user.author_of?(@attachment.record)
       @attachment.purge
     else
-      render plain: 'Forbidden', status: 403
+      head :forbidden
     end
   end
 
