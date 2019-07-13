@@ -29,6 +29,20 @@ feature 'User can see question and answers to him', %q{
     expect(page).to have_content 'Hello, World!'
   end
 
+  describe "Authenticated user" do
+    background do
+      sign_in(user)
+
+      visit question_path(question)
+    end
+
+    scenario "can votes" do # ToDo: Переработка теста
+      within ".question .question_votes" do
+        click_link 'Up'
+        expect(page).to have_content '1'
+      end
+    end
+  end
 
   describe "Unauthenticated user can't delete" do
     scenario "question's file" do

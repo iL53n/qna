@@ -1,0 +1,6 @@
+.rating
+  p= resource.rating
+em.small
+  = link_to 'Up', polymorphic_path(resource, action: :up), method: :post, remote: true, data: { type: :json }
+  = ' | '
+  = link_to 'Down', polymorphic_path(resource, action: :down), method: :post, remote: true, data: { type: :json }

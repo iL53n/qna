@@ -24,7 +24,7 @@ class Link < ApplicationRecord
   private
 
   def client
-    Octokit::Client.new
+    Octokit::Client.new(:access_token => Rails.application.credentials.dig(:gist_access_token))
   end
 
   def url_split
