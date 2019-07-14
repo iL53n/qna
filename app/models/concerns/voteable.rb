@@ -21,7 +21,7 @@ module Voteable
   private
 
   def change_rating(value)
-    votes.create(vote: value, user: user)
+    votes.create(vote: value, user: user) unless user.author_of?(self)
   end
 end
 
