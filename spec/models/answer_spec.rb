@@ -10,6 +10,10 @@ RSpec.describe Answer, type: :model do
 
   it { should accept_nested_attributes_for :links }
 
+  it_behaves_like 'Voteable' do
+    let(:voteable) { 'Answer' }
+  end
+
   describe '#set_best' do
     let(:user_best) { create(:user) }
     let(:user_not_best) { create(:user) }

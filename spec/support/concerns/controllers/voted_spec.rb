@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-shared_examples 'voteable' do
+shared_examples 'voted' do
   describe 'POST #up' do
     before { login(create(:user)) }
     it 'saves a new vote in the database' do
