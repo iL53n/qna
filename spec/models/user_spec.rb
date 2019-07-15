@@ -20,4 +20,18 @@ RSpec.describe User, type: :model do
       expect(user).to_not be_author_of(question)
     end
   end
+
+  describe '#voted?' do
+    let(:user) { create(:user) }
+    let!(:question) { create(:question, user: user) }
+
+    it 'return true if user voted' do
+      question.votes.create(vote: 1, user: user)
+      expect(user).to be_voted(question)
+    end
+
+    it 'return false if user not voted' do
+      expect(user).to_not be_voted(question)
+    end
+  end
 end
