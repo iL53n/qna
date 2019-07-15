@@ -97,6 +97,31 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
+  describe 'POST #up' do
+    before { login(create(:user)) }
+    it 'saves a new vote in the database' do
+      expect { post :up, params: { id: question.id, format: :json } }.to change(question.votes, :count).by(1)
+    end
+  end
+
+  describe 'POST #cancel' do #ToDo: почему не проходит тест?
+    before do
+      post :up, params: { id: question.id, format: :json }
+      login(create(:user))
+    end
+
+    it 'deletes a vote in the database' do
+      expect { post :cancel, params: { id: question.id, format: :json } }.to change(question.votes, :count).by(-1)
+    end
+  end
+
+  describe 'POST #down' do
+    before { login(create(:user)) }
+    it 'saves a new vote in the database' do
+      expect { post :down, params: { id: question.id, format: :json } }.to change(question.votes, :count).by(1)
+    end
+  end
+
   describe 'PATCH #update' do
     before { login(user) }
 

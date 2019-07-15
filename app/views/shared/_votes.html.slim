@@ -1,14 +1,11 @@
+= 'Rating: '
 .rating
   p= resource.rating
 
 .rating_button
-  em.small
-    / - unless current_user.author_of?(resource)
-      = link_to 'Up', polymorphic_path(resource, action: :up), method: :post, remote: true, data: { type: :json }
-      = ' | '
-      = link_to 'Down', polymorphic_path(resource, action: :down), method: :post, remote: true, data: { type: :json }
-    / - else
-
+  - if user_signed_in?
+    em.small
+      / - unless current_user.author_of?(resource)
     .cancel_vote style= "#{'display: none' unless current_user.voted?(resource)}"
       = link_to 'Cancel vote', polymorphic_path(resource, action: :cancel), method: :post, remote: true, data: {type: :json}
 

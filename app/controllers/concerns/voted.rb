@@ -1,5 +1,4 @@
 module Voted
-  # ToDo: Покрыть тестами контроллер
   extend ActiveSupport::Concern
 
   included do
