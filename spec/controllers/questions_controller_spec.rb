@@ -4,6 +4,10 @@ RSpec.describe QuestionsController, type: :controller do
   let(:user) { create(:user) }
   let(:question) { create(:question, user: user) }
 
+  it_behaves_like 'voteable' do
+    let(:voteable) { question }
+  end
+
   describe 'GET #index' do
     let(:questions) { create_list(:question, 3, user: user) }
 
@@ -94,31 +98,6 @@ RSpec.describe QuestionsController, type: :controller do
         post :create, params: { question: attributes_for(:question, :invalid) }
         expect(response).to render_template :new
       end
-    end
-  end
-
-  describe 'POST #up' do
-    before { login(create(:user)) }
-    it 'saves a new vote in the database' do
-      expect { post :up, params: { id: question.id, format: :json } }.to change(question.votes, :count).by(1)
-    end
-  end
-
-  describe 'POST #cancel' do #ToDo: почему не проходит тест?
-    before do
-      post :up, params: { id: question.id, format: :json }
-      login(create(:user))
-    end
-
-    it 'deletes a vote in the database' do
-      expect { post :cancel, params: { id: question.id, format: :json } }.to change(question.votes, :count).by(-1)
-    end
-  end
-
-  describe 'POST #down' do
-    before { login(create(:user)) }
-    it 'saves a new vote in the database' do
-      expect { post :down, params: { id: question.id, format: :json } }.to change(question.votes, :count).by(1)
     end
   end
 
