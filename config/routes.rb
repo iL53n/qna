@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     member do
       post :up
       post :down
+      post :cancel
     end
   end
 

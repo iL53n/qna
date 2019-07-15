@@ -1,6 +1,18 @@
 .rating
   p= resource.rating
-em.small
-  = link_to 'Up', polymorphic_path(resource, action: :up), method: :post, remote: true, data: { type: :json }
-  = ' | '
-  = link_to 'Down', polymorphic_path(resource, action: :down), method: :post, remote: true, data: { type: :json }
+
+.rating_button
+  em.small
+    / - unless current_user.author_of?(resource)
+      = link_to 'Up', polymorphic_path(resource, action: :up), method: :post, remote: true, data: { type: :json }
+      = ' | '
+      = link_to 'Down', polymorphic_path(resource, action: :down), method: :post, remote: true, data: { type: :json }
+    / - else
+
+    .cancel_vote style= "#{'display: none' unless current_user.voted?(resource)}"
+      = link_to 'Cancel vote', polymorphic_path(resource, action: :cancel), method: :post, remote: true, data: {type: :json}
+
+    .change_vote style= "#{'display: none' if current_user.voted?(resource)}"
+      = link_to 'Up', polymorphic_path(resource, action: :up), method: :post, remote: true, data: {type: :json}
+      = ' | '
+      = link_to 'Down', polymorphic_path(resource, action: :down), method: :post, remote: true, data: {type: :json}

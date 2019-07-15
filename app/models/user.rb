@@ -12,4 +12,9 @@ class User < ApplicationRecord
   def author_of?(object)
     self.id == object.user_id
   end
+
+  # ToDo: Покрыть тестами
+  def voted?(object)
+    object.votes.where(user: self).present?
+  end
 end

@@ -10,6 +10,10 @@ module Voteable
     change_rating(1)
   end
 
+  def cancel_vote
+    votes.where(user: user).destroy_all
+  end
+
   def down_rating
     change_rating(-1)
   end
@@ -21,7 +25,9 @@ module Voteable
   private
 
   def change_rating(value)
-    votes.create(vote: value, user: user) unless user.author_of?(self)
+    # ToDo: Покрыть тестами - автор + повторное голосование
+    # votes.create(vote: value, user: user) unless user.author_of?(self) || user.voted?(self)
+    votes.create(vote: value, user: user) unless user.voted?(self)
   end
 end
 
