@@ -1,5 +1,4 @@
 module Voteable
-  # ToDo: Покрыть тестами модель
   extend ActiveSupport::Concern
 
   included do

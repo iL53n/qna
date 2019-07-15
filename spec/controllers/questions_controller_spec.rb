@@ -5,6 +5,7 @@ RSpec.describe QuestionsController, type: :controller do
   let(:question) { create(:question, user: user) }
 
   it_behaves_like 'voted' do
+    before { login(user) }
     let(:voteable) { question }
   end
 
