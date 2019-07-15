@@ -26,8 +26,7 @@ module Voteable
 
   def change_rating(value)
     # ToDo: Покрыть тестами - автор + повторное голосование
-    # votes.create(vote: value, user: user) unless user.author_of?(self) || user.voted?(self)
-    votes.create(vote: value, user: user) unless user.voted?(self)
+    votes.create(vote: value, user: user) unless !user.author_of?(self) || user.voted?(self)
   end
 end
 

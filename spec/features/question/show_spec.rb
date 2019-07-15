@@ -29,28 +29,6 @@ feature 'User can see question and answers to him', %q{
     expect(page).to have_content 'Hello, World!'
   end
 
-  describe "Authenticated user", js: true do
-    scenario "can votes" do
-      sign_in(user)
-      visit question_path(question)
-
-      within ".question .question_votes" do
-        click_link 'Up'
-        expect(page).to_not have_content '1'
-      end
-    end
-
-    scenario "can't votes for him question" do
-      sign_in(create(:user))
-      visit question_path(question)
-
-      within ".question .question_votes" do
-        click_link 'Up'
-        expect(page).to_not have_content '1'
-      end
-    end
-  end
-
   describe "Unauthenticated user can't delete" do
     scenario "question's file" do
       within ".question_files .file_#{question.files.first.id}" do
