@@ -2,6 +2,8 @@
   div class="answer_#{answer.id}"
     p= 'TheBest' if answer.best?
     p= answer.body
+    .answer_votes
+      = render 'shared/votes', resource: answer
     .answer_links
       = render 'links/links', resource: answer
     .answer_files

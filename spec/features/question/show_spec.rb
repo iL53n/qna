@@ -29,7 +29,6 @@ feature 'User can see question and answers to him', %q{
     expect(page).to have_content 'Hello, World!'
   end
 
-
   describe "Unauthenticated user can't delete" do
     scenario "question's file" do
       within ".question_files .file_#{question.files.first.id}" do

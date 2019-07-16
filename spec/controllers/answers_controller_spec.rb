@@ -3,7 +3,12 @@ require 'rails_helper'
 RSpec.describe AnswersController, type: :controller do
   let(:user) { create(:user) }
   let(:question) { create(:question, user: user) }
+  let(:answer) { create(:answer, question: question, user: user) }
   before { login(user) }
+
+  it_behaves_like 'voted' do
+    let(:voteable) { answer }
+  end
 
   describe 'POST #create' do
     context 'with valid attributes' do
