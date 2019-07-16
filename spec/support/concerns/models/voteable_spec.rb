@@ -2,7 +2,6 @@ shared_examples_for 'Voteable' do
   let(:user) { create(:user) }
   let(:question) { create(:question, user: user) }
   let(:answer) { create(:answer, question: question, user: user) }
-  # let(:klass) { described_class }
 
   let(:model) do
     case voteable
@@ -31,10 +30,10 @@ shared_examples_for 'Voteable' do
   end
 
   it '#rating' do
-    model.votes.create(vote: 1, user: user)
-    model.votes.create(vote: 1, user: user)
-    model.votes.create(vote: 1, user: user)
-    model.votes.create(vote: -1, user: user)
+    model.votes.create(vote: 1, user: (create :user))
+    model.votes.create(vote: -1, user: (create :user))
+    model.votes.create(vote: 1, user: (create :user))
+    model.votes.create(vote: 1, user: (create :user))
     expect(model.rating).to eq(2)
   end
 end

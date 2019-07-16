@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 2019_07_11_194238) do
   end
 
   create_table "answers", force: :cascade do |t|
-    t.text "body", null: false
+    t.text "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "question_id"
@@ -58,8 +58,8 @@ ActiveRecord::Schema.define(version: 2019_07_11_194238) do
   end
 
   create_table "questions", force: :cascade do |t|
-    t.string "title", null: false
-    t.text "body", null: false
+    t.string "title"
+    t.text "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
@@ -97,6 +97,7 @@ ActiveRecord::Schema.define(version: 2019_07_11_194238) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_votes_on_user_id"
+    t.index ["voteable_type", "voteable_id", "user_id"], name: "index_votes_on_voteable_type_and_voteable_id_and_user_id", unique: true
     t.index ["voteable_type", "voteable_id"], name: "index_votes_on_voteable_type_and_voteable_id"
   end
 
@@ -106,5 +107,4 @@ ActiveRecord::Schema.define(version: 2019_07_11_194238) do
   add_foreign_key "questions", "users"
   add_foreign_key "rewards", "questions"
   add_foreign_key "rewards", "users"
-  add_foreign_key "votes", "users"
 end

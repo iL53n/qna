@@ -14,6 +14,6 @@ class User < ApplicationRecord
   end
   
   def voted?(object)
-    object.votes.where(user: self).present?
+    object.votes.where(user: self).exists?
   end
 end
