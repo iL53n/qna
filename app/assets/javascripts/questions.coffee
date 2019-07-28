@@ -7,9 +7,8 @@ $(document).on 'turbolinks:load', () ->
 
   App.cable.subscriptions.create('QuestionsChannel', {
     connected: ->
-      console.log 'Connected!'
       @perform 'follow'
       ,
-    received: (data) ->
-      $('.questions').append(data)
+      received: (data) ->
+        $('.questions').append(data)
   });
