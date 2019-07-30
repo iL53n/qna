@@ -44,11 +44,19 @@ class AnswersController < ApplicationController
   def publish_answer
     return if @answer.errors.any?
 
+    attachments = @answer.files.map do |file|
+      { id: file.id,
+        filename: file.filename.to_s,
+        url: Rails.application.routes.url_helpers.rails_blob_path(file, only_path: true)
+      }
+    end
+
     ActionCable.server.broadcast(
         "answers_question_#{@question.id}",
-        answers: @answer,
+        answer: @answer,
+        rating: @answer.rating,
         links: @answer.links,
-        rating: @answer.rating
+        attachments: attachments
     )
   end
 end

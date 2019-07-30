@@ -17,6 +17,7 @@
 //= require action_cable
 //= require twitter/bootstrap
 //= require cocoon
+//= require skim
 //= require_tree .
 
 var App = App || {};
