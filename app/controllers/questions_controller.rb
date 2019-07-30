@@ -61,11 +61,9 @@ class QuestionsController < ApplicationController
     return if @question.errors.any?
 
     ActionCable.server.broadcast(
-      'questions',
-      ApplicationController.render(
-       partial: 'questions/question_tr',
-       locals: { question: @question }
-      )
+        'questions',
+        question: @question,
+        answers: @question.answers.count
     )
   end
 end

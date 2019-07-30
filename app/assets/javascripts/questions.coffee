@@ -10,5 +10,5 @@ $(document).on 'turbolinks:load', () ->
       @perform 'follow'
     ,
     received: (data) ->
-      $('.questions').append(data)
+      $('.questions').append(JST["templates/question"](data))
   });
