@@ -8,6 +8,10 @@
       = render 'links/links', resource: answer
     .answer_files
       = render 'attachments/attachments', resource: answer
+    .answer_comments
+      = render 'comments/comments', resource: answer
+    .add_comment
+    = render 'comments/form', resource: answer
 
     - if current_user&.author_of?(answer.question)
       em.small= link_to 'Best answer', best_answer_path(answer), method: :patch, remote: true

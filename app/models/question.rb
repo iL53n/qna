@@ -1,9 +1,9 @@
 class Question < ApplicationRecord
   include Voteable
+  include Commentable
 
   has_many :answers, dependent: :destroy
   has_many :links, dependent: :destroy, as: :linkable
-  has_many :votes, dependent: :destroy, as: :voteable
   has_one :reward, dependent: :destroy
   belongs_to :user
 

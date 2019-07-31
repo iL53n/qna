@@ -1,1 +1,12 @@
 .hidden { display: none }
+
+.border {
+  border: 2px solid #e6f1ff;
+  padding: 5px;
+}
+
+.border_secondary {
+  border: 1px solid #e6f1ff;
+  background: #fcfcff;
+  padding: 2px;
+}
