@@ -13,6 +13,11 @@ h4= @question.body
 .question_files
   = render 'attachments/attachments', resource: @question
 
+.question_comments
+  = render 'comments/comments', resource: @question
+.add_comment
+= render 'comments/form', resource: @question
+
 - if current_user&.author_of?(@question)
   br
   em.middle= link_to 'Delete question', question_path(@question), method: :delete, data: { confirm: "Are you sure?" }

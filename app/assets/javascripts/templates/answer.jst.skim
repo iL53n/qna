@@ -1,0 +1,46 @@
+div class="answer_#{@answer.id}"
+  - if @answer.best
+    p 'TheBest'
+
+  p #{@answer['body']}
+
+  .answer_votes
+    p Rating:
+    .rating
+      p #{@rating}
+    .rating_button
+      - if gon.user_id && gon.user_id != @answer.user_id
+        em.small
+          .cancel_vote style = "display: none"
+            a data-method="post" data-remote="true" href="/answers/#{@answer.id}/cancel" rel="nofollow"  Cancel
+          .change_vote
+            a data-method="post" data-remote="true" href="/answers/#{@answer.id}/up" rel="nofollow"  Up
+            b #{" | "}
+            a data-method="post" data-remote="true" href="/answers/#{@answer.id}/down" rel="nofollow"  Down
+
+  .answer_links
+  - if @links.length
+    h6 Links:
+    ul
+      - for link in @links
+        div class="link_#{link.id}"
+          / ToDo: разобраться с выводом gist
+          / - if link.gist_link?
+          /   li
+          /     a = link.gist_contents
+          / - else
+          li
+            a href = link.url #{link.name}
+
+  .answer_files
+  - if @attachments.length
+    h6 Files:
+    ul
+      - for file in @attachments
+        div class="file_#{file.id}"
+          li
+            a href = file.url #{file.filename}
+hr
+
+
+

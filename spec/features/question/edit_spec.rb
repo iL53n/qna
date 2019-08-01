@@ -36,7 +36,7 @@ feature 'User can edit his question', %q{
         expect(page).to have_content 'Title_edited'
         expect(page).to_not have_content question.body
         expect(page).to have_content 'Body_edited'
-        expect(page).to_not have_selector 'textarea'
+        expect(page).to_not have_selector "edit-question-#{question.id}"
       end
     end
 
