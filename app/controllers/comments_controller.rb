@@ -1,6 +1,7 @@
 class CommentsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_resource, only: :create
+  after_action :publish_comment, only: :create
 
   def create
     @comment = @resource.comments.new(comment_params)
@@ -20,6 +21,19 @@ class CommentsController < ApplicationController
     else
       @resource = Answer.find(params[:answer_id])
     end
+  end
+
+  def publish_comment
+    return if @comment.errors.any?
+
+    question_id = @resource.is_a?(Question) ? @resource.id : @resource.question.id
+
+    ActionCable.server.broadcast(
+        "comments_question_#{question_id}",
+        comment: @comment,
+        email: @comment.user.email,
+        created_at: @comment.created_at
+    )
   end
 end
 
