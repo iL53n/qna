@@ -12,6 +12,7 @@ module Services
 
       email = auth.info[:email]
       user = User.where(email: email).first
+
       if user
         user.create_authorization(auth)
       else
