@@ -269,6 +269,15 @@ Devise.setup do |config|
                   Rails.application.credentials[Rails.env.to_sym][:facebook][:client_secret],
                   scope: 'email'
 
+  config.omniauth :twitter,
+                  Rails.application.credentials[Rails.env.to_sym][:twitter][:client_id],
+                  Rails.application.credentials[Rails.env.to_sym][:twitter][:client_secret]
+
+  config.omniauth :vkontakte,
+                  Rails.application.credentials[Rails.env.to_sym][:vk][:client_id],
+                  Rails.application.credentials[Rails.env.to_sym][:vk][:client_secret],
+                  scope: 'email'
+
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
   # change the failure app, you can configure them inside the config.warden block.

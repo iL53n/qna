@@ -7,6 +7,14 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
     set_user('Facebook')
   end
 
+  def twitter
+    render json: request.env['omniauth.auth']
+  end
+
+  def vkontakte
+    set_user('Vkontakte')
+  end
+
   def set_user(provider)
     @user = User.find_for_oauth(request.env['omniauth.auth'])
     if @user&.persisted?
