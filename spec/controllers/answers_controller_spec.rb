@@ -13,15 +13,15 @@ RSpec.describe AnswersController, type: :controller do
   describe 'POST #create' do
     context 'with valid attributes' do
       it 'saves a new question answer in the database' do
-        expect { post :create, params: { answer: attributes_for(:answer), question_id: question }, format: :js }.to change(question.answers, :count).by(1)
+        expect { post :create, params: {answer: attributes_for(:answer), question_id: question }, format: :js }.to change(question.answers, :count).by(1)
       end
 
       it 'saves a new user answer in the database' do
-        expect { post :create, params: { answer: attributes_for(:answer), question_id: question }, format: :js }.to change(user.answers, :count).by(1)
+        expect { post :create, params: {answer: attributes_for(:answer), question_id: question }, format: :js }.to change(user.answers, :count).by(1)
       end
 
       it 'redirect to current question view' do
-        post :create, params: { answer: attributes_for(:answer), question_id: question, format: :js }
+        post :create, params: {answer: attributes_for(:answer), question_id: question, format: :js }
         expect(response).to render_template :create
       end
     end
@@ -30,10 +30,10 @@ RSpec.describe AnswersController, type: :controller do
       let(:answer_invalid) { attributes_for(:answer, :invalid) }
 
       it 'does not save the answer' do
-        expect { post :create, params: { question_id: question, answer: answer_invalid }, format: :js }.to_not change(question.answers, :count)
+        expect { post :create, params: {question_id: question, answer: answer_invalid }, format: :js }.to_not change(question.answers, :count)
       end
       it 'redirect to current question view' do
-        post :create, params: { question_id: question, answer: answer_invalid }, format: :js
+        post :create, params: {question_id: question, answer: answer_invalid }, format: :js
         expect(response).to render_template :create
       end
     end

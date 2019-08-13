@@ -8,6 +8,15 @@ module OmniauthMacros
     })
   end
 
+  def mock_auth_twitter
+    OmniAuth.config.mock_auth[:twitter] = OmniAuth::AuthHash.new({
+       provider: 'Twitter',
+       uid: '1235456',
+       info: { email: nil },
+       credentials: { token: 'mock_token', secret: 'mock_secret' }
+   })
+  end
+
   def invalid_mock_auth_hash(provider)
     OmniAuth.config.mock_auth[provider.downcase.to_sym] = :invalid_credentials
   end

@@ -1,27 +1,32 @@
 class OauthCallbacksController < Devise::OmniauthCallbacksController
-  def github
-    set_user('GitHub')
-  end
+  before_action :set_user, only: %i[github facebook twitter vkontakte]
 
-  def facebook
-    set_user('Facebook')
-  end
+  def github; end
 
-  def twitter
-    render json: request.env['omniauth.auth']
-  end
+  def facebook; end
 
-  def vkontakte
-    set_user('Vkontakte')
-  end
+  def twitter; end
 
-  def set_user(provider)
-    @user = User.find_for_oauth(request.env['omniauth.auth'])
-    if @user&.persisted?
+  def vkontakte; end
+
+  private
+
+  def set_user
+    auth = request.env['omniauth.auth']
+    unless auth
+      redirect_to new_user_session_path, alert: 'Authentication failed, please try again.'
+      return
+    end
+
+    @user = User.find_for_oauth(auth)
+
+    if @user&.confirmed?
       sign_in_and_redirect @user, event: :authentication
-      set_flash_message(:notice, :success, kind: provider) if is_navigational_format?
+      set_flash_message(:notice, :success, kind: auth.provider.capitalize) if is_navigational_format?
     else
-      redirect_to new_user_session_path
+      session[:provider] = auth.provider
+      session[:uid] = auth.uid
+      redirect_to new_user_confirmation_path
     end
   end
 end

@@ -23,6 +23,7 @@ feature 'User can add links to answer', %q{
       fill_in 'Url', with: gist_url
 
       click_on 'Post Your Answer'
+
       expect(page).to have_content 'Hello, World!'
     end
 
