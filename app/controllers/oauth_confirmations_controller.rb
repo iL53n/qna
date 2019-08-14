@@ -17,17 +17,13 @@ class OauthConfirmationsController < Devise::ConfirmationsController
   private
 
   def after_confirmation_path_for(resource_name, user)
-    # user.save!  #Validation failed: Email can't be blank, Password can't be blank
     user.authorizations.create(auth)
     sign_in user, event: :authentication
+    signed_in_root_path user
   end
 
   def confirm_params
     params.permit(:email)
-  end
-
-  def resource
-    @resource ||= User.new
   end
 
   def auth

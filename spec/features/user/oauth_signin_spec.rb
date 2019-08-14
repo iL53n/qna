@@ -47,7 +47,7 @@ feature 'User can sign in with provider account', %q{
       current_email.click_link 'Confirm my account'
       expect(page).to have_content 'Your email address has been successfully confirmed.'
 
-      expect(page).to have_content 'user@mail.com'
+      expect(page).to have_content 'user@test.com'
       expect(page).to have_link 'Sign out'
     end
   end
