@@ -48,7 +48,7 @@ RSpec.describe OauthCallbacksController, type: :controller do
         end
 
         it 'redirect to root path' do
-          expect(response).to redirect_to root_path
+          expect(response).to redirect_to new_user_session_path
         end
       end
     end
