@@ -1,6 +1,4 @@
 class OauthConfirmationsController < Devise::ConfirmationsController
-  def new; end
-
   def create
     @email = confirm_params[:email]
     password = Devise.friendly_token[0, 20]
