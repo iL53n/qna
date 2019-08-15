@@ -1,0 +1,5 @@
+h3 Enter your email for confirmation
+p= form_with url: user_confirmation_path, local: true do |f|
+  p= f.label :email, 'Email'
+  p= f.email_field :email
+  p= f.submit 'Send email', class: 'btn btn-primary btn-sm'

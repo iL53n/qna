@@ -9,7 +9,7 @@ feature 'User can sign up', %q{
   background { visit new_user_registration_path }
 
   describe 'Unregistered user ' do
-    scenario 'tries to sign up' do
+    scenario 'tries to sign up' do # ToDo: add email confirm
       fill_in 'Email', with: 'test@test.com'
       fill_in 'Password', with: '12345678'
       fill_in 'Password confirmation', with: '12345678'

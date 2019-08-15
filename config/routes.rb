@@ -1,10 +1,14 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks' }
   root to: 'questions#index'
 
   resources :attachments, only: :destroy
   resources :links, only: :destroy
   resources :rewards, only: :index
+
+  devise_for :users, controllers: {
+      omniauth_callbacks: 'oauth_callbacks',
+      confirmations: 'oauth_confirmations'
+  }
 
   concern :voteable do
     member do
