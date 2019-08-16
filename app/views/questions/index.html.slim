@@ -13,4 +13,5 @@ table.table.table-bordered.questions
       td = question.body
       td = question.answers.count
 br
-= link_to 'Ask Question', new_question_path, class: 'btn btn-primary'
+- if can?(:create, Question)
+  = link_to 'Ask Question', new_question_path, class: 'btn btn-primary'
