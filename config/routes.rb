@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  use_doorkeeper
   root to: 'questions#index'
 
   resources :attachments, only: :destroy
@@ -9,6 +10,14 @@ Rails.application.routes.draw do
       omniauth_callbacks: 'oauth_callbacks',
       confirmations: 'oauth_confirmations'
   }
+
+  namespace :api do
+    namespace :v1 do
+      resource :profiles, only: [] do
+        get :me, on: :collection
+      end
+    end
+  end
 
   concern :voteable do
     member do
