@@ -45,10 +45,10 @@ feature 'User can create an answer for the question', %q{
 
   scenario 'Unauthenticated user tries to answer the question' do
     visit question_path(question)
-    click_on 'Post Your Answer'
-
-    expect(current_path).to eq new_user_session_path
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'
+    # click_on 'Post Your Answer'
+    expect(page).to_not have_link 'Post Your Answer'
+    # expect(current_path).to eq new_user_session_path
+    # expect(page).to have_content 'You need to sign in or sign up before continuing.'
   end
 
   context 'Multiple sessions', js: true do

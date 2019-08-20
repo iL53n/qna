@@ -150,7 +150,7 @@ RSpec.describe QuestionsController, type: :controller do
 
       it 'renders update template' do
         patch :update, params: { id: question, question: { title: 'new_title', body: 'new_body'} }, format: :js
-        expect(response).to render_template :update
+        expect(response).to have_http_status :forbidden
       end
     end
   end
@@ -178,8 +178,8 @@ RSpec.describe QuestionsController, type: :controller do
       end
 
       it 'redirects to question view' do
-        delete :destroy, params: { id: authored_question }
-        expect(response).to redirect_to authored_question
+        delete :destroy, params: { id: authored_question }, format: :js
+        expect(response).to have_http_status :forbidden
       end
     end
   end

@@ -12,15 +12,15 @@
       .answer-errors
       br
       = render @question.answers
-
-    = form_with model: [@question, @answer], class: 'new_answer' do |f|
-      p
-        = f.label :body, 'Your answer'
-        = f.text_area :body
-      p
-        = f.fields_for :links do |l|
-        = link_to_add_association 'Add link', f, :links, partial: 'links/link_fields'
-      p
-        = f.label :files
-        = f.file_field :files, multiple: true
-      p= f.submit 'Post Your Answer', class: 'btn btn-primary'
+    - if can?(:create, @answer)
+      = form_with model: [@question, @answer], class: 'new_answer' do |f|
+        p
+          = f.label :body, 'Your answer'
+          = f.text_area :body
+        p
+          = f.fields_for :links do |l|
+          = link_to_add_association 'Add link', f, :links, partial: 'links/link_fields'
+        p
+          = f.label :files
+          = f.file_field :files, multiple: true
+        p= f.submit 'Post Your Answer', class: 'btn btn-primary'
