@@ -1,11 +1,10 @@
 require 'rails_helper'
 
 describe 'Questions API', type: :request do
-  let(:me) { create(:user) }
   let!(:question) { create(:question, :add_file) }
   let(:question_response) { json['question'] }
   let(:headers) { { "ACCEPT" => "application/json" } }
-  let(:access_token) { create(:access_token, resource_owner_id: me.id) }
+  let(:access_token) { create(:access_token) }
 
   describe 'GET /api/v1/questions' do
     let(:api_path) { '/api/v1/questions' }
@@ -232,22 +231,32 @@ describe 'Questions API', type: :request do
     end
   end
 
-  # describe 'DELETE /api/v1/questions/:id' do
-  #   let(:api_path) { "/api/v1/questions/#{question.id}" }
-  #
-  #   it_behaves_like 'API Authorizable' do
-  #     let(:method) { :delete }
-  #   end
-  # end
-  #
-  # describe 'PATCH /api/v1/questions/:id' do
-  #     let(:api_path) { "/api/v1/questions/#{question.id}" }
-  #
-  #     it_behaves_like 'API Authorizable' do
-  #       let(:method) { :patch }
-  #     end
-  #
-  #     context 'authorized' do
-  #       describe 'update with valid attributes' do
+  describe 'DELETE /api/v1/questions/:id' do
+    let(:api_path) { "/api/v1/questions/#{question.id}" }
 
+    it_behaves_like 'API Authorizable' do
+      let(:method) { :delete }
+    end
+
+    context 'authorized' do
+      describe 'delete the question' do
+        let(:params) { { access_token: access_token.token,
+                         question_id: question.id } }
+
+        before { delete api_path, headers: headers, params: params }
+
+        it 'return status :ok' do
+          expect(response.status).to eq 200
+        end
+
+        it 'delete the question from the database' do
+          expect(Question.count).to eq 0
+        end
+
+        it 'return empty' do
+          expect(json).to eq({})
+        end
+      end
+    end
+  end
 end
