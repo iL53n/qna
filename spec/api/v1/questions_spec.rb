@@ -1,9 +1,11 @@
 require 'rails_helper'
 
 describe 'Questions API', type: :request do
-  let(:headers) { { "CONTENT_TYPE" => "application/json",
-                    "ACCEPT" => "application/json" } }
-  let(:access_token) { create(:access_token) }
+  let(:me) { create(:user) }
+  let!(:question) { create(:question, :add_file) }
+  let(:question_response) { json['question'] }
+  let(:headers) { { "ACCEPT" => "application/json" } }
+  let(:access_token) { create(:access_token, resource_owner_id: me.id) }
 
   describe 'GET /api/v1/questions' do
     let(:api_path) { '/api/v1/questions' }
@@ -59,7 +61,6 @@ describe 'Questions API', type: :request do
   end
 
   describe 'GET /api/v1/questions/:id' do
-    let!(:question) { create(:question, :add_file) }
     let(:api_path) { "/api/v1/questions/#{question.id}" }
 
     it_behaves_like 'API Authorizable' do
@@ -71,7 +72,6 @@ describe 'Questions API', type: :request do
       let!(:links) { create_list(:link, 3, linkable: question) }
       let!(:comments) { create_list(:comment, 3, commentable: question) }
       let!(:files) { question.files }
-      let(:question_response) { json['question'] }
 
       before { get api_path, params: { access_token: access_token.token }, headers: headers }
 
@@ -131,4 +131,76 @@ describe 'Questions API', type: :request do
       end
     end
   end
+
+  describe 'POST /api/v1/questions' do
+    let(:api_path) { '/api/v1/questions/' }
+
+    it_behaves_like 'API Authorizable' do
+      let(:method) { :post }
+    end
+
+    context 'authorized' do
+      describe 'create with valid attributes' do
+        let(:params) { { access_token: access_token.token,
+                         question: { title: question.title, body: question.body } } }
+
+        before { post api_path, headers: headers, params: params }
+
+        it 'return status :created' do
+          expect(response.status).to eq 201
+        end
+
+        it 'saves a new question in the database' do
+          expect(Question.count).to eq 2
+        end
+
+        it 'return all public fields' do
+          %w[title body].each do |attr|
+            expect(question_response[attr]).to eq question.send(attr).as_json
+          end
+        end
+      end
+
+      describe 'try create with invalid attributes' do
+        let(:params) { { access_token: access_token.token,
+                         question: { title: nil, body: nil } } }
+
+        before { post api_path, headers: headers, params: params }
+
+        it 'return status :unprocessable_entity' do
+          expect(response.status).to eq 422
+        end
+
+        it 'saves a new question in the database' do
+          expect(Question.count).to eq 1
+        end
+
+        it 'return error message' do
+          expect(json['errors']).to be_truthy
+        end
+      end
+    end
+  end
+
+
+
+
+  # describe 'PATCH /api/v1/questions/:id' do
+  #   let!(:question) { create(:question, :add_file) }
+  #   let(:api_path) { "/api/v1/questions/#{question.id}" }
+  #
+  #   it_behaves_like 'API Authorizable' do
+  #     let(:method) { :patch }
+  #   end
+  # end
+  #
+  # describe 'DELETE /api/v1/questions/:id' do
+  #   let!(:question) { create(:question, :add_file) }
+  #   let(:api_path) { "/api/v1/questions/#{question.id}" }
+  #
+  #   it_behaves_like 'API Authorizable' do
+  #     let(:method) { :delete }
+  #   end
+  # end
+
 end
