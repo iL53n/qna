@@ -1,5 +1,5 @@
 class Api::V1::AnswersController < Api::V1::BaseController
-  # authorize_resource class: Answer #ToDo: Can't verify CSRF token authenticity.
+  authorize_resource
   before_action :question, only: [:create]
 
   def show

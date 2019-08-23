@@ -1,5 +1,5 @@
 class Api::V1::QuestionsController < Api::V1::BaseController
-  # authorize_resource class: Question #ToDo: Can't verify CSRF token authenticity.
+  authorize_resource
 
   def index
     render json: questions

@@ -16,15 +16,13 @@ describe 'Profiles API', type: :request do
 
       before { get api_path, params: { access_token: access_token.token }, headers: headers }
 
-      it 'return 200 status' do
-        expect(response).to be_successful
-      end
+      it_behaves_like 'Request successful'
 
       context 'user profile' do
-        it 'returns all public fields' do
-          %w[id email admin created_at updated_at].each do |attr|
-            expect(json[attr]).to eq me.send(attr).as_json
-          end
+        it_behaves_like 'Public fields' do
+          let(:attrs) { %w[id email admin created_at updated_at] }
+          let(:resource_response) { json }
+          let(:resource) { me }
         end
 
         it 'does not return private fields' do
@@ -49,19 +47,17 @@ describe 'Profiles API', type: :request do
 
       before { get api_path, params: { access_token: access_token.token }, headers: headers }
 
-      it 'return 200 status' do
-        expect(response).to be_successful
-      end
+      it_behaves_like 'Request successful'
 
       it 'return all profiles but me' do
         expect(json.size).to eq(users.size - 1)
         expect(json).to_not include me
       end
 
-      it 'returns all public fields' do
-        %w[id email admin created_at updated_at].each do |attr|
-          expect(json.last[attr]).to eq users.last.send(attr).as_json
-        end
+      it_behaves_like 'Public fields' do
+        let(:attrs) { %w[id email admin created_at updated_at] }
+        let(:resource_response) { json.last }
+        let(:resource) { users.last }
       end
 
       it 'does not return private fields' do
