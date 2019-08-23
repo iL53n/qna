@@ -112,4 +112,54 @@ describe 'Answers API', type: :request do
       end
     end
   end
+
+  describe 'PATCH /api/v1/answers/:id' do
+    let(:api_path) { "/api/v1/answers/#{answer.id}" }
+
+    it_behaves_like 'API Authorizable' do
+      let(:method) { :patch }
+    end
+
+    context 'authorized' do
+      describe 'update with valid attributes' do
+        let(:params) { { access_token: access_token.token,
+                         answer: { answer_body: answer.body } } }
+
+        before { patch api_path, headers: headers, params: params }
+
+        it 'return status :created' do
+          expect(response.status).to eq 201
+        end
+
+        it 'update answer in the database, but not create new' do
+          expect(Answer.count).to eq 1
+        end
+
+        it 'return all public fields' do
+          %w[body].each do |attr|
+            expect(answer_response[attr]).to eq answer.send(attr).as_json
+          end
+        end
+      end
+
+      describe 'try update with invalid attributes' do
+        let(:params) { { access_token: access_token.token,
+                         answer: { body: nil } } }
+
+        before { patch api_path, headers: headers, params: params }
+
+        it 'return status :unprocessable_entity' do
+          expect(response.status).to eq 422
+        end
+
+        it 'does not save a new answer in the database' do
+          expect(Answer.count).to eq 1
+        end
+
+        it 'return error message' do
+          expect(json['errors']).to be_truthy
+        end
+      end
+    end
+  end
 end

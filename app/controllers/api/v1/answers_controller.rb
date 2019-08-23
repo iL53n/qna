@@ -17,6 +17,14 @@ class Api::V1::AnswersController < Api::V1::BaseController
     end
   end
 
+  def update
+    if answer.update(answer_params)
+      render json: answer, status: :created
+    else
+      render json: { errors: answer.errors }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def answer_params
