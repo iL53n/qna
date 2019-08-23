@@ -1,13 +1,13 @@
 require 'rails_helper'
 
 describe 'Answers API', type: :request do
-  let(:headers) { { "CONTENT_TYPE" => "application/json",
-                    "ACCEPT" => "application/json" } }
+  let(:headers) { { "ACCEPT" => "application/json" } }
   let(:access_token) { create(:access_token) }
+  let!(:question) { create(:question) }
+  let!(:answer) { create(:answer, :add_file, question: question) }
+  let(:answer_response) { json['answer'] }
 
   describe 'GET /api/v1/answers/:id' do
-    let!(:question) { create(:question) }
-    let!(:answer) { create(:answer, :add_file, question: question) }
     let(:api_path) { "/api/v1/answers/#{answer.id}" }
 
     it_behaves_like 'API Authorizable' do
@@ -18,7 +18,6 @@ describe 'Answers API', type: :request do
       let!(:links) { create_list(:link, 3, linkable: answer) }
       let!(:comments) { create_list(:comment, 3, commentable: answer) }
       let!(:files) { answer.files }
-      let(:answer_response) { json['answer'] }
 
       before { get api_path, params: { access_token: access_token.token }, headers: headers }
 
@@ -59,6 +58,56 @@ describe 'Answers API', type: :request do
 
         it 'returns url fields for question files' do
           expect(answer_response['files'].first['url']).to eq rails_blob_path(files.first, only_path: true)
+        end
+      end
+    end
+  end
+
+  describe 'POST /api/v1/questions/:id/answers' do
+    let(:api_path) { "/api/v1/questions/#{question.id}/answers" }
+
+    it_behaves_like 'API Authorizable' do
+      let(:method) { :post }
+    end
+
+    context 'authorized' do
+      describe 'create with valid attributes' do
+        let(:params) { { access_token: access_token.token,
+                         answer: { body: answer.body } } }
+
+        before { post api_path, headers: headers, params: params }
+
+        it 'return status :created' do
+          expect(response.status).to eq 201
+        end
+
+        it 'saves a new question in the database' do
+          expect(Answer.count).to eq 2
+        end
+
+        it 'return all public fields' do
+          %w[body].each do |attr|
+            expect(answer_response[attr]).to eq answer.send(attr).as_json
+          end
+        end
+      end
+
+      describe 'try create with invalid attributes' do
+        let(:params) { { access_token: access_token.token,
+                         answer: { body: nil } } }
+
+        before { post api_path, headers: headers, params: params }
+
+        it 'return status :unprocessable_entity' do
+          expect(response.status).to eq 422
+        end
+
+        it 'does not save a new answer in the database' do
+          expect(Answer.count).to eq 1
+        end
+
+        it 'return error message' do
+          expect(json['errors']).to be_truthy
         end
       end
     end
