@@ -25,6 +25,14 @@ class Api::V1::AnswersController < Api::V1::BaseController
     end
   end
 
+  def destroy
+    if answer.destroy
+      render json: {}, status: :ok
+    else
+      render json: { errors: answer.errors }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def answer_params

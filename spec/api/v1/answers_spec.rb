@@ -160,6 +160,35 @@ describe 'Answers API', type: :request do
           expect(json['errors']).to be_truthy
         end
       end
+
+      describe 'DELETE /api/v1/answers/:id' do
+        let(:api_path) { "/api/v1/answers/#{answer.id}" }
+
+        it_behaves_like 'API Authorizable' do
+          let(:method) { :delete }
+        end
+
+        context 'authorized' do
+          describe 'delete the answer' do
+            let(:params) { { access_token: access_token.token,
+                             answer_id: answer.id } }
+
+            before { delete api_path, headers: headers, params: params }
+
+            it 'return status :ok' do
+              expect(response.status).to eq 200
+            end
+
+            it 'delete the answer from the database' do
+              expect(Answer.count).to eq 0
+            end
+
+            it 'return empty' do
+              expect(json).to eq({})
+            end
+          end
+        end
+      end
     end
   end
 end
