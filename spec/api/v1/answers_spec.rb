@@ -25,14 +25,15 @@ describe 'Answers API', type: :request do
         let(:link) { links.last }
         let(:link_response) { answer_response['links'].first }
 
-        it 'return list of links' do
-          expect(answer_response['links'].size).to eq 3
+        it_behaves_like 'Return list' do
+          let(:resource_response) { answer_response['links'] }
+          let(:resource) { links }
         end
 
-        it 'return all public fields' do
-          %w[id name url].each do |attr|
-            expect(link_response[attr]).to eq link.send(attr).as_json
-          end
+        it_behaves_like 'Public fields' do
+          let(:attrs) { %w[id name url] }
+          let(:resource_response) { link_response }
+          let(:resource) { link }
         end
       end
 
@@ -40,20 +41,22 @@ describe 'Answers API', type: :request do
         let(:comment) { comments.last }
         let(:comment_response) { answer_response['comments'].first }
 
-        it 'return list of comments' do
-          expect(answer_response['comments'].size).to eq 3
+        it_behaves_like 'Return list' do
+          let(:resource_response) { answer_response['comments'] }
+          let(:resource) { comments }
         end
 
-        it 'return all public fields' do
-          %w[id body].each do |attr|
-            expect(comment_response[attr]).to eq comment.send(attr).as_json
-          end
+        it_behaves_like 'Public fields' do
+          let(:attrs) { %w[id body] }
+          let(:resource_response) { comment_response }
+          let(:resource) { comment }
         end
       end
 
       describe 'files' do
-        it 'return list of files' do
-          expect(answer_response['files'].size).to eq files.size
+        it_behaves_like 'Return list' do
+          let(:resource_response) { answer_response['files'] }
+          let(:resource) { files }
         end
 
         it 'returns url fields for question files' do
@@ -77,18 +80,16 @@ describe 'Answers API', type: :request do
 
         before { post api_path, headers: headers, params: params }
 
-        it 'return status :created' do
-          expect(response.status).to eq 201
-        end
+        it_behaves_like 'Request successful'
 
         it 'saves a new question in the database' do
           expect(Answer.count).to eq 2
         end
 
-        it 'return all public fields' do
-          %w[body].each do |attr|
-            expect(answer_response[attr]).to eq answer.send(attr).as_json
-          end
+        it_behaves_like 'Public fields' do
+          let(:attrs) { %w[body] }
+          let(:resource_response) { answer_response }
+          let(:resource) { answer }
         end
       end
 
@@ -98,17 +99,13 @@ describe 'Answers API', type: :request do
 
         before { post api_path, headers: headers, params: params }
 
-        it 'return status :unprocessable_entity' do
-          expect(response.status).to eq 422
-        end
+        it_behaves_like 'Request_unprocessable_entity'
 
         it 'does not save a new answer in the database' do
           expect(Answer.count).to eq 1
         end
 
-        it 'return error message' do
-          expect(json['errors']).to be_truthy
-        end
+        it_behaves_like 'Errors'
       end
     end
   end
@@ -127,18 +124,16 @@ describe 'Answers API', type: :request do
 
         before { patch api_path, headers: headers, params: params }
 
-        it 'return status :created' do
-          expect(response.status).to eq 201
-        end
+        it_behaves_like 'Request successful'
 
         it 'update answer in the database, but not create new' do
           expect(Answer.count).to eq 1
         end
 
-        it 'return all public fields' do
-          %w[body].each do |attr|
-            expect(answer_response[attr]).to eq answer.send(attr).as_json
-          end
+        it_behaves_like 'Public fields' do
+          let(:attrs) { %w[body] }
+          let(:resource_response) { answer_response }
+          let(:resource) { answer }
         end
       end
 
@@ -148,17 +143,13 @@ describe 'Answers API', type: :request do
 
         before { patch api_path, headers: headers, params: params }
 
-        it 'return status :unprocessable_entity' do
-          expect(response.status).to eq 422
-        end
+        it_behaves_like 'Request_unprocessable_entity'
 
         it 'does not save a new answer in the database' do
           expect(Answer.count).to eq 1
         end
 
-        it 'return error message' do
-          expect(json['errors']).to be_truthy
-        end
+        it_behaves_like 'Errors'
       end
 
       describe 'DELETE /api/v1/answers/:id' do
@@ -175,9 +166,7 @@ describe 'Answers API', type: :request do
 
             before { delete api_path, headers: headers, params: params }
 
-            it 'return status :ok' do
-              expect(response.status).to eq 200
-            end
+            it_behaves_like 'Request successful'
 
             it 'delete the answer from the database' do
               expect(Answer.count).to eq 0
