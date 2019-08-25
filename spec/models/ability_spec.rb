@@ -79,5 +79,11 @@ describe Ability do
       it { should be_able_to :destroy, question.files.last }
       it { should_not be_able_to :destroy, other_question.files.last }
     end
+
+    context 'user profiles' do
+      it { should be_able_to :read, user }
+      it { should_not be_able_to :read, other_user }
+      it { should be_able_to :me, user }
+    end
   end
 end

@@ -5,6 +5,7 @@ FactoryBot.define do
 
   factory :question do
     title
+    user
     body { "MyText" }
 
     trait :add_file do
