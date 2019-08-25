@@ -1,6 +1,8 @@
 class Api::V1::AnswersController < Api::V1::BaseController
-  authorize_resource
   before_action :question, only: [:create]
+  before_action :answer, only: [:show, :update, :destroy]
+
+  authorize_resource
 
   def show
     render json: answer

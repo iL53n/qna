@@ -1,10 +1,11 @@
 require 'rails_helper'
 
 describe 'Answers API', type: :request do
+  let(:me) { create(:user) }
   let(:headers) { { "ACCEPT" => "application/json" } }
-  let(:access_token) { create(:access_token) }
+  let(:access_token) { create(:access_token, resource_owner_id: me.id) }
   let!(:question) { create(:question) }
-  let!(:answer) { create(:answer, :add_file, question: question) }
+  let!(:answer) { create(:answer, :add_file, question: question, user: me) }
   let(:answer_response) { json['answer'] }
 
   describe 'GET /api/v1/answers/:id' do
