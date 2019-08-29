@@ -11,6 +11,8 @@ class Answer < ApplicationRecord
 
   validates :body, presence: true
 
+  after_create :email_notification
+
   scope :by_best, -> { order(best: :desc) }
 
   def set_best
@@ -21,5 +23,11 @@ class Answer < ApplicationRecord
       update!(best: true)
       question.reward&.update!(user: user)
     end
+  end
+
+  private
+
+  def email_notification
+    NewAnswerNotificationJob.perform_later(self)
   end
 end

@@ -13,6 +13,10 @@ h4= @question.body
 .question_files
   = render 'attachments/attachments', resource: @question
 
+.question_subscription
+  - if can?(:create, Subscription)
+    = render 'subscriptions/subscription', resource: @question
+
 .question_comments
   = render 'comments/comments', resource: @question
 .add_comment

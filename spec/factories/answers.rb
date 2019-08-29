@@ -5,7 +5,7 @@ FactoryBot.define do
 
   factory :answer do
     body
-    question { nil }
+    question
     user
 
     trait :add_file do
