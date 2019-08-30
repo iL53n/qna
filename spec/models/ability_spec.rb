@@ -23,6 +23,7 @@ describe Ability do
     let(:user) { create :user }
     let(:question) { create :question, :add_file, user: user }
     let(:answer) { create :answer, :add_file, question: question, user: user }
+    let(:subscription) { create :subscription, question: question, user: user }
 
     let(:other_user) { create :user }
     let(:other_question) { create :question, :add_file, user: other_user }
@@ -36,6 +37,7 @@ describe Ability do
       it { should be_able_to :create, Question }
       it { should be_able_to :create, Answer }
       it { should be_able_to :create, Comment }
+      it { should be_able_to :create, Subscription }
 
       it { should be_able_to :read, Question }
       it { should be_able_to :read, Answer }
@@ -50,6 +52,7 @@ describe Ability do
       it { should_not be_able_to :destroy, other_question }
       it { should be_able_to :destroy, answer }
       it { should_not be_able_to :destroy, other_answer }
+      it { should be_able_to :destroy, subscription }
     end
 
     context 'set the best' do
