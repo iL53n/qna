@@ -76,9 +76,8 @@ This app based on main idea of stackowerflow: people can ask questions and creat
 
 ### Ruby & Rails version
 
-  - ruby 2.4.0
-  - rails 4.2.8
-
+  - ruby 2.6.3
+  - rails 5.2.3
 
 ### Services (job queues, cache servers, search engines, etc.)
 

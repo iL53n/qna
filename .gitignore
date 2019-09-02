@@ -27,3 +27,8 @@
 /config/master.key
 /config/database.yml
 !/config/credentials.yml.enc
+
+# Other
+!/dump.rdb
+!/config/*.sphinx.conf
+!/db/sphinx/
