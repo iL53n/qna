@@ -4,6 +4,7 @@
       = link_to image_tag('qna_logo.png', size: '60x60', alt: 'QnAlogo'), questions_path
 
     ul.navbar-collapse
+      = render 'searches/search'
       - if user_signed_in?
         = current_user.email
         br= link_to 'My rewards', rewards_path
