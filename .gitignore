@@ -10,12 +10,12 @@
 # Ignore all logfiles and tempfiles.
 /log/*
 /tmp/*
-!/log/.keep
-!/tmp/.keep
+/log/.keep
+/tmp/.keep
 
 # Ignore uploaded files in development
 /storage/*
-!/storage/.keep
+/storage/.keep
 
 /node_modules
 /yarn-error.log
@@ -26,9 +26,9 @@
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 /config/database.yml
-!/config/credentials.yml.enc
+/config/credentials.yml.enc
 
 # Other
-!/dump.rdb
-!/config/*.sphinx.conf
-!/db/sphinx/
+/dump.rdb
+/config/*.sphinx.conf
+/db/sphinx/
