@@ -1,0 +1,15 @@
+.search_result
+  - unless @q_text == ''
+    h4= 'What: '
+    = @q_text
+    h4= 'Where: '
+    = @resource
+
+    - if @result
+      h2= "Result (#{@result.count})"
+      - @result.each do |result|
+        .border_secondary
+          h4= result.class.to_s.upcase
+          = render partial: result.class.to_s.downcase, locals: {resource: result}
+    - else
+      h2= "No result"

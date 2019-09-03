@@ -1,4 +1,4 @@
-class SearchesController < ApplicationController
+class SearchController < ApplicationController
 
   RESOURCE = %w[All Question Answer Comment User]
 

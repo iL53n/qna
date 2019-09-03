@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   use_doorkeeper
   root to: 'questions#index'
 
-  get :search, to: 'searches#result'
+  get :search, to: 'search#result'
 
   resources :attachments, only: :destroy
   resources :links, only: :destroy
