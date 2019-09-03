@@ -1,13 +1,23 @@
 .navbar.navbar-default.navbar-static-top
   .container
-    a.navbar-brand
-      = link_to image_tag('qna_logo.png', size: '60x60', alt: 'QnAlogo'), questions_path
+    .row
+      .col-lg-9
+        a.navbar-brand
+          = link_to image_tag('qna_logo.png', size: '60x60', alt: 'QnAlogo'), questions_path
 
-    ul.navbar-collapse
-      = render 'searches/search'
-      - if user_signed_in?
-        = current_user.email
-        br= link_to 'My rewards', rewards_path
-        br= link_to 'Sign out', destroy_user_session_path, method: :delete
-      - else
-        = link_to 'Sign in', new_user_session_path
+        .navbar-right
+          p= render 'searches/search'
+
+          .small
+            - if user_signed_in?
+              nav-link.dropdown-toggle data-toggle="dropdown" href="#"
+                a= current_user.email
+                span.caret
+              ul.dropdown-menu
+                li
+                  a= link_to 'My rewards', rewards_path
+                li.divider
+                li
+                  a= link_to 'Sign out', destroy_user_session_path, method: :delete
+            - else
+              p= link_to 'Sign in', new_user_session_path
