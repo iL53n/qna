@@ -26,11 +26,11 @@
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 /config/database.yml
-!/config/credentials.yml.enc
+/config/credentials.yml.enc
 
 # Other
-!/dump.rdb
-!/config/*.sphinx.conf
-!/db/sphinx/
+/dump.rdb
+/config/*.sphinx.conf
+/db/sphinx/
 sphinxdata/binlogs/
 sphinxdata/indexes/
