@@ -30,7 +30,11 @@
 
 # Other
 /dump.rdb
+
+# Sphinx
 /config/*.sphinx.conf
 /db/sphinx/
 sphinxdata/binlogs/
 sphinxdata/indexes/
+/sphinxdata/searchd.state
+/sphinxdata/logs/searchd.log

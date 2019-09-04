@@ -1,9 +1,9 @@
 .search_result
-  - unless @q_text == ''
+  - unless @params[:q] == ''
     h4= 'What: '
-    = @q_text
+    = @params[:q]
     h4= 'Where: '
-    = @resource
+    = @params[:resource]
 
     - if @result
       h2= "Result (#{@result.count})"

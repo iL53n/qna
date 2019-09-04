@@ -5,6 +5,6 @@
               class: 'form-inline my-2 my-lg-0' do
     = text_field_tag(:q, '', class: 'form-control mr-sm-2')
     = select_tag(:resource,
-                  options_for_select(SearchController::RESOURCE),
+                  options_for_select(Services::Search::RESOURCE),
                   class: 'form-control mr-sm-2')
     = submit_tag('Search', class: 'btn btn-outline-primary my-2 my-sm-0')

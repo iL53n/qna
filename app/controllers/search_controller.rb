@@ -1,25 +1,25 @@
 class SearchController < ApplicationController
-
-  RESOURCE = %w[All Question Answer Comment User]
-
   def result
-    @resource = search_params[:resource]
-    @q_text = search_params[:q]
+    @params = search_params
 
-    @q_text == '' ? flash.now[:alert] = 'Search field is empty' : return_result
+    if q_empty?
+      flash.now[:alert] = 'Search field is empty'
+    else
+      @result = call_service
+    end
   end
 
   private
 
+  def q_empty?
+    @params[:q] == ''
+  end
+
+  def call_service
+    Services::Search.call(@params)
+  end
+
   def search_params
     params.permit(:q, :resource)
-  end
-
-  def return_result
-    @resource == 'All' ? @result = search(ThinkingSphinx) : @result = search(@resource.constantize)
-  end
-
-  def search(resource)
-    resource.search @q_text
   end
 end
