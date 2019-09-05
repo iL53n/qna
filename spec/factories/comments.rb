@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :comment do
-    body { 'Comment' }
+    body
     user
 
     trait :invalid do

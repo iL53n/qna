@@ -5,7 +5,7 @@ class SearchController < ApplicationController
     if q_empty?
       flash.now[:alert] = 'Search field is empty'
     else
-      @result = call_service
+      @result = Services::Search.call(@params)
     end
   end
 
@@ -13,10 +13,6 @@ class SearchController < ApplicationController
 
   def q_empty?
     @params[:q] == ''
-  end
-
-  def call_service
-    Services::Search.call(@params)
   end
 
   def search_params

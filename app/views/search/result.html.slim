@@ -1,10 +1,10 @@
-.search_result
+.search_info
   - unless @params[:q] == ''
     h4= 'What: '
     = @params[:q]
     h4= 'Where: '
     = @params[:resource]
-
+.search_result
     - if @result
       h2= "Result (#{@result.count})"
       - @result.each do |result|
