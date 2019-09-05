@@ -30,7 +30,7 @@ shared_examples_for 'Request_unprocessable_entity' do
   end
 end
 
-shared_examples 'Public fields' do
+shared_examples 'Public fields' do #ToDo: перепроверить_api:v1:questions:54, 87
   it 'return all public fields' do
     attrs.each do |attr|
       expect(resource_response[attr]).to eq resource.send(attr).as_json
