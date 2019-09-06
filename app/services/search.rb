@@ -11,20 +11,12 @@ class Services::Search
   end
 
   def result
-    if r_include?
-      all? ? search(ThinkingSphinx) : search(@resource.constantize)
+    if RESOURCE.include?(@resource)
+      @resource == 'All' ? search(ThinkingSphinx) : search(@resource.constantize)
     end
   end
 
   private
-
-  def r_include?
-    RESOURCE.include?(@resource)
-  end
-
-  def all?
-    @resource == 'All'
-  end
 
   def search(resource)
     resource.search(@q_text)
