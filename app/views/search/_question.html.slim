@@ -1,0 +1,4 @@
+= link_to resource.title, question_path(resource)
+em.small
+    p= resource.body.truncate(50)
+    p= resource.created_at

@@ -58,7 +58,9 @@ feature 'User can choice best answer', %q{
       expect(page).to_not have_link question.title
       expect(page).to_not have_content reward.title
 
-      click_on 'Sign out'
+      find('.dropdown-toggle').click
+      click_link 'Sign out'
+
       sign_in(user_2)
 
       visit rewards_path

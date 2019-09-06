@@ -16,6 +16,7 @@ class Ability
 
   def guest_abilities
     can :read, [Question, Answer, Comment]
+    can :search, :all
   end
 
   def admin_abilities

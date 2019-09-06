@@ -18,6 +18,7 @@ feature 'User can votes for the question', %q{
       expect(page).to have_content '1'
     end
 
+    find('.dropdown-toggle').click
     click_on 'Sign out'
 
     visit question_path(question)
