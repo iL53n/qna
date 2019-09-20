@@ -1,7 +1,8 @@
-.border_secondary
-  em.small
-    .text-muted.blockquote.text-right
-      = comment.user.email
-      br
-      = comment.created_at
-    = comment.body
+- cache comment do
+  .border_secondary
+    em.small
+      .text-muted.blockquote.text-right
+        = comment.user.email
+        br
+        = comment.created_at
+      = comment.body
