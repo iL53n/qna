@@ -1,26 +1,27 @@
-h1= @question.title
-h4= @question.body
+- cache @question do
+  h1= @question.title
+  h4= @question.body
 
-.question_votes
- = render 'shared/votes', resource: @question
+  .question_votes
+    = render 'shared/votes', resource: @question
 
-.question_reward
-  = render 'rewards/reward', resource: @question
+  .question_reward
+    = render 'rewards/reward', resource: @question
 
-.question_links
-  = render 'links/links', resource: @question
+  .question_links
+    = render 'links/links', resource: @question
 
-.question_files
-  = render 'attachments/attachments', resource: @question
+  .question_files
+    = render 'attachments/attachments', resource: @question
 
-.question_subscription
-  - if can?(:create, Subscription)
-    = render 'subscriptions/subscription', resource: @question
+  .question_subscription
+    - if can?(:create, Subscription)
+      = render 'subscriptions/subscription', resource: @question
 
-.question_comments
-  = render 'comments/comments', resource: @question
-.add_comment
-= render 'comments/form', resource: @question
+  .question_comments
+    = render 'comments/comments', resource: @question
+  .add_comment
+  = render 'comments/form', resource: @question
 
 - if current_user&.author_of?(@question)
   br

@@ -7,11 +7,12 @@ table.table.table-bordered.questions
     th Body
     th Answers
   thead
-  - @questions.each do |question|
-    tr
-      td = link_to question.title, question_path(question)
-      td = question.body
-      td = question.answers.count
+  - cache collection_cache_key_for :question do
+    - @questions.each do |question|
+      tr
+        td = link_to question.title, question_path(question)
+        td = question.body
+        td = question.answers.count
 br
 - if can?(:create, Question)
   = link_to 'Ask Question', new_question_path, class: 'btn btn-primary'

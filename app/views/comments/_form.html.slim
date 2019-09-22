@@ -1,7 +1,8 @@
-= form_with model: [resource, resource.comments.new], class: 'new_comment' do |f|
-  p
-    em.small
-      = f.label :body, 'Your comment'
-    br
-      = f.text_area :body
-  = f.submit 'Add Your Comment', class: 'btn btn-primary btn-sm'
+- cache ['comment_form', resource]
+  = form_with model: [resource, resource.comments.new], class: 'new_comment' do |f|
+    p
+      em.small
+        = f.label :body, 'Your comment'
+      br
+        = f.text_area :body
+    = f.submit 'Add Your Comment', class: 'btn btn-primary btn-sm'

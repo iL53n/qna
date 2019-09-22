@@ -1,38 +1,39 @@
-- if answer.persisted?
-  div class="answer_#{answer.id}"
-    p= 'TheBest' if answer.best?
-    p= answer.body
-    .answer_votes
-      = render 'shared/votes', resource: answer
-    .answer_links
-      = render 'links/links', resource: answer
-    .answer_files
-      = render 'attachments/attachments', resource: answer
-    .answer_comments
-      = render 'comments/comments', resource: answer
-    .add_comment
-    = render 'comments/form', resource: answer
+- cache answer do
+  - if answer.persisted?
+    div class="answer_#{answer.id}"
+      p= 'TheBest' if answer.best?
+      p= answer.body
+      .answer_votes
+        = render 'shared/votes', resource: answer
+      .answer_links
+        = render 'links/links', resource: answer
+      .answer_files
+        = render 'attachments/attachments', resource: answer
+      .answer_comments
+        = render 'comments/comments', resource: answer
+      .add_comment
+        = render 'comments/form', resource: answer
 
-    - if current_user&.author_of?(answer.question)
-      em.small= link_to 'Best answer', best_answer_path(answer), method: :patch, remote: true
+      - if current_user&.author_of?(answer.question)
+        em.small= link_to 'Best answer', best_answer_path(answer), method: :patch, remote: true
 
-    - if current_user&.author_of?(answer)
-      = ' | '
-      em.small= link_to 'Delete answer', answer_path(answer), method: :delete, remote: true, data: { confirm: "Are you sure?" }
-      = ' | '
-      em.small= link_to 'Edit answer', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+      - if current_user&.author_of?(answer)
+        = ' | '
+        em.small= link_to 'Delete answer', answer_path(answer), method: :delete, remote: true, data: { confirm: "Are you sure?" }
+        = ' | '
+        em.small= link_to 'Edit answer', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
 
-    = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
-      p
-        = f.label :body
-      p
-        = f.text_area :body
-      p
-        = f.fields_for :links do |l|
-        = link_to_add_association 'Add link', f, :links, partial: 'links/link_fields'
-      p
-        = f.label :files
-        = f.file_field :files, multiple: true, direct_upload: true
+      = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
+        p
+          = f.label :body
+        p
+          = f.text_area :body
+        p
+          = f.fields_for :links do |l|
+          = link_to_add_association 'Add link', f, :links, partial: 'links/link_fields'
+        p
+          = f.label :files
+          = f.file_field :files, multiple: true, direct_upload: true
 
-      p= f.submit 'Save'
-    hr
+        p= f.submit 'Save'
+      hr
