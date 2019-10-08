@@ -1,11 +1,4 @@
 # README
-http://157.245.66.174/
-
-test@test.com
-
-12345678
-
-
 This app based on main idea of stackowerflow: people can ask questions and create answers for them, created for lerning how some gems and technologies works.
 
 ### Features:
